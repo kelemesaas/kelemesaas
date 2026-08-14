@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KlemeSaaS Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#eef7ff',
+                100: '#dfeeff',
+                500: '#3b82f6',
+                600: '#2563eb',
+                700: '#1d4ed8',
+                900: '#0f172a'
+              },
+              darkbg: '#0b1120',
+              panel: '#111827',
+              accent: '#14b8a6',
+              warn: '#f59e0b',
+              danger: '#ef4444'
+            },
+            boxShadow: {
+              soft: '0 20px 45px rgba(15, 23, 42, 0.18)'
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      body {
+        background: linear-gradient(135deg, #f8fafc 0%, #eef6ff 100%);
+      }
+
+      .sidebar-link.active {
+        background: rgba(59, 130, 246, 0.12);
+        color: #dbeafe;
+        border-left: 3px solid #60a5fa;
+      }
+
+      .view-panel {
+        transition: all 0.25s ease;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen text-slate-800">
+    <div class="flex min-h-screen">
+      <aside class="w-72 bg-slate-950 text-slate-200 flex flex-col">
+        <div class="flex items-center gap-3 px-6 py-6 border-b border-slate-800">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
+            <span class="text-lg font-bold text-white">K</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold text-white">KlemeSaaS</h1>
+            <p class="text-xs text-slate-400">Unified School Ecosystem</p>
+          </div>
+        </div>
+
+        <nav class="mt-6 px-4 space-y-2">
+          <button data-view="dashboard" class="sidebar-link active w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-200">
+            <span class="text-lg">◉</span>
+            <span>Dashboard</span>
+          </button>
+          <button data-view="registrar" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+            <span class="text-lg">▣</span>
+            <span>Registrar Portal</span>
+          </button>
+          <button data-view="student" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+            <span class="text-lg">🎓</span>
+            <span>Student Portal</span>
+          </button>
+          <button data-view="finance" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+            <span class="text-lg">💰</span>
+            <span>Finance Head</span>
+          </button>
+          <button data-view="department" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+            <span class="text-lg">📘</span>
+            <span>Department Head</span>
+          </button>
+          <button data-view="parent" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+            <span class="text-lg">👨‍👩‍👧</span>
+            <span>Parent Portal</span>
+          </button>
+          <button data-view="teacher" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+            <span class="text-lg">🧑‍🏫</span>
+            <span>Teacher Portal</span>
+          </button>
+          <button data-view="ai" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
+            <span class="text-lg">🤖</span>
+            <span>AI Insights Report</span>
+          </button>
+        </nav>
+
+        <div class="mt-auto px-4 pb-6">
+          <div class="rounded-2xl bg-gradient-to-br from-blue-600/20 to-cyan-500/10 border border-blue-500/20 p-4">
+            <p class="text-xs uppercase tracking-[0.2em] text-blue-200/80">System Health</p>
+            <div class="mt-3 flex items-center justify-between">
+              <span class="text-sm text-slate-300">Operations</span>
+              <span class="text-sm font-semibold text-emerald-400">98.4%</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <main class="flex-1 p-6 lg:p-8">
+        <section id="dashboard" class="view-panel">
+          <header class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <div>
+              <p class="text-sm font-medium uppercase tracking-[0.18em] text-blue-600">Overview</p>
+              <h2 class="mt-1 text-3xl font-bold text-slate-900">SuperAdmin Overview</h2>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <button id="generate-report" class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-500">
+                Generate Report
+              </button>
+            </div>
+          </header>
+
+          <div class="grid gap-5 md:grid-cols-3">
+            <div class="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-5 text-white shadow-soft">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-slate-300">Total Registered Schools</span>
+                <span class="rounded-full bg-blue-500/20 px-2 py-1 text-xs font-medium text-blue-200">+12%</span>
+              </div>
+              <div class="mt-6 text-3xl font-bold">24</div>
+            </div>
+
+            <div class="rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 p-5 text-white shadow-soft">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-cyan-50/90">Students with Fayda ID</span>
+                <span class="rounded-full bg-white/15 px-2 py-1 text-xs font-medium text-cyan-50">+8.4%</span>
+              </div>
+              <div class="mt-6 text-3xl font-bold">1,250</div>
+            </div>
+
+            <div class="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 p-5 text-white shadow-soft">
+              <div class="flex items-center justify-between">
+                <span class="text-sm text-emerald-50/90">Active Exams / Teachers</span>
+                <span class="rounded-full bg-white/15 px-2 py-1 text-xs font-medium text-emerald-50">Live</span>
+              </div>
+              <div class="mt-6 text-3xl font-bold">18</div>
+            </div>
+          </div>
+
+          <div class="mt-8 rounded-3xl bg-white shadow-soft border border-slate-200 overflow-hidden">
+            <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
+              <div>
+                <h3 class="text-xl font-bold text-slate-900">Operational Summary</h3>
+                <p class="text-sm text-slate-500">School status across the platform</p>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
+                  <tr>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">School Name</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Sector</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">School Type</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Male</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Female</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 bg-white">
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Bright Future Academy</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">Primary</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">Private</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">420</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">390</td>
+                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Active</span></td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Aster International School</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">Secondary</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">Government</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">510</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">470</td>
+                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Active</span></td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-900">North City University</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">University</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">Private</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">780</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">690</td>
+                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Active</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="registrar" class="view-panel hidden">
+          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
+            <h3 class="text-2xl font-bold text-slate-900">Registrar Portal</h3>
+            <p class="mt-1 text-sm text-slate-500">Bulk student registration with mandatory Fayda NID validation</p>
+
+            <div class="mt-6 grid gap-6 lg:grid-cols-2">
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
+                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter student name" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Grade Level</label>
+                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Grade 1, 7, 12..." />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Department</label>
+                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Science / Arts / Commerce" />
+                </div>
+              </div>
+
+              <div class="space-y-4">
+                <div>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Fayda NID / National ID</label>
+                  <input type="text" id="fayda-input" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Mandatory for all grades" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">School</label>
+                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="School name" />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-slate-700 mb-1">Batch / Academic Year</label>
+                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="2025 / 2026" />
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-6 flex flex-wrap gap-3">
+              <button id="register-student" class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">Register Student</button>
+              <button id="bulk-register" class="rounded-xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Bulk Upload</button>
+              <button id="verify-fayda" class="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-700 hover:bg-emerald-100">Verify Fayda NID</button>
+            </div>
+          </div>
+        </section>
+
+        <section id="student" class="view-panel hidden">
+          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
+            <h3 class="text-2xl font-bold text-slate-900">Student Portal</h3>
+            <p class="mt-1 text-sm text-slate-500">Self-registration and enrollment updates</p>
+
+            <form class="mt-6 grid gap-5 md:grid-cols-2">
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Student Name</label>
+                <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your full name" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
+                <input type="email" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="name@example.com" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Grade Level</label>
+                <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Grade 9" />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-slate-700 mb-1">Fayda ID</label>
+                <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Mandatory" />
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-slate-700 mb-1">School / Department</label>
+                <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Department or school" />
+              </div>
+              <div class="md:col-span-2 flex justify-end">
+                <button id="submit-student-registration" class="rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-500">Submit Registration</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section id="finance" class="view-panel hidden">
+          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
+            <h3 class="text-2xl font-bold text-slate-900">Finance Head</h3>
+            <p class="mt-1 text-sm text-slate-500">Verify fee payments and approve or reject pending items</p>
+
+            <div class="mt-6 overflow-x-auto">
+              <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
+                  <tr>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Student</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Fayda ID</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Fee Amount</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 bg-white">
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Aliya Bekele</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">ET-7821</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">$420</td>
+                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">Pending</span></td>
+                    <td class="px-6 py-4 space-x-2">
+                      <button class="approve-payment rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Approve Payment</button>
+                      <button class="reject-payment rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500">Reject</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Mekdes Tadesse</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">ET-9012</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">$580</td>
+                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">Pending</span></td>
+                    <td class="px-6 py-4 space-x-2">
+                      <button class="approve-payment rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Approve Payment</button>
+                      <button class="reject-payment rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500">Reject</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="department" class="view-panel hidden">
+          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
+            <h3 class="text-2xl font-bold text-slate-900">Department Head</h3>
+            <p class="mt-1 text-sm text-slate-500">Approve academic documents and identify student national ID completeness</p>
+
+            <div class="mt-6 overflow-x-auto">
+              <table class="min-w-full divide-y divide-slate-200">
+                <thead class="bg-slate-50">
+                  <tr>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Student</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Academic Document</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">NID Status</th>
+                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Action</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 bg-white">
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Samuel Haile</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">Transcript Verified</td>
+                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Approved</span></td>
+                    <td class="px-6 py-4 space-x-2">
+                      <button class="approve-doc rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Approve</button>
+                      <button class="reject-doc rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500">Reject</button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Hanna Tesfaye</td>
+                    <td class="px-6 py-4 text-sm text-slate-600">Certificate Pending</td>
+                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">Review</span></td>
+                    <td class="px-6 py-4 space-x-2">
+                      <button class="approve-doc rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Approve</button>
+                      <button class="reject-doc rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500">Reject</button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <section id="parent" class="view-panel hidden">
+          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
+            <h3 class="text-2xl font-bold text-slate-900">Parent Portal</h3>
+            <p class="mt-1 text-sm text-slate-500">Search child by Fayda ID to review attendance and academic performance</p>
+
+            <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-end">
+              <div class="flex-1">
+                <label class="block text-sm font-medium text-slate-700 mb-1">Child Fayda ID</label>
+                <input id="child-fayda-id" type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter child Fayda ID" />
+              </div>
+              <button id="search-child" class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">Search</button>
+            </div>
+
+            <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
+              <div class="grid gap-5 md:grid-cols-3">
+                <div class="rounded-2xl bg-white p-4 shadow-sm">
+                  <p class="text-sm text-slate-500">Attendance</p>
+                  <p class="mt-2 text-2xl font-bold text-slate-900">95%</p>
+                </div>
+                <div class="rounded-2xl bg-white p-4 shadow-sm">
+                  <p class="text-sm text-slate-500">Performance</p>
+                  <p class="mt-2 text-2xl font-bold text-slate-900">A-</p>
+                </div>
+                <div class="rounded-2xl bg-white p-4 shadow-sm">
+                  <p class="text-sm text-slate-500">Current Grade</p>
+                  <p class="mt-2 text-2xl font-bold text-slate-900">Grade 10</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="teacher" class="view-panel hidden">
+          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
+            <h3 class="text-2xl font-bold text-slate-900">Teacher Portal</h3>
+            <p class="mt-1 text-sm text-slate-500">Track attendance and enter online exam grades</p>
+
+            <div class="mt-6 grid gap-6 lg:grid-cols-2">
+              <div class="rounded-2xl bg-slate-50 p-5">
+                <h4 class="text-lg font-semibold text-slate-900">Mark Attendance</h4>
+                <div class="mt-4 space-y-3">
+                  <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-200">
+                    <span class="text-sm font-medium text-slate-700">Abel Berhanu</span>
+                    <button class="mark-attendance rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Present</button>
+                  </div>
+                  <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-200">
+                    <span class="text-sm font-medium text-slate-700">Selam Bekele</span>
+                    <button class="mark-attendance rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Present</button>
+                  </div>
+                  <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-200">
+                    <span class="text-sm font-medium text-slate-700">Daniel Mamo</span>
+                    <button class="mark-attendance rounded-lg bg-amber-500 px-3 py-2 text-xs font-semibold text-white hover:bg-amber-400">Late</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="rounded-2xl bg-slate-50 p-5">
+                <h4 class="text-lg font-semibold text-slate-900">Online Exam Grades</h4>
+                <div class="mt-4 space-y-4">
+                  <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Student Name</label>
+                    <input type="text" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Student name" />
+                  </div>
+                  <div>
+                    <label class="block text-sm font-medium text-slate-700 mb-1">Grade</label>
+                    <input type="text" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="A, B+, 92" />
+                  </div>
+                  <button id="save-exam-grade" class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">Save Grade</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="ai" class="view-panel hidden">
+          <div class="rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50 via-white to-cyan-50 p-6 shadow-soft">
+            <div class="flex items-center justify-between gap-3 flex-wrap">
+              <div>
+                <p class="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">AI Insights Report</p>
+                <h3 class="mt-2 text-2xl font-bold text-slate-900">Automated Intelligence Summary</h3>
+              </div>
+              <button id="refresh-ai-report" class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
+                Refresh Analysis
+              </button>
+            </div>
+
+            <div class="mt-5 rounded-2xl border border-blue-100 bg-white/80 p-5">
+              <p class="text-lg leading-8 text-slate-700">
+                AI Summary Report: Total enrollment has reached 1,250. Primary section female registration grew by 15% this week. 5 private applications are pending financial clearance.
+              </p>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const sidebarLinks = document.querySelectorAll('.sidebar-link');
+      const views = {
+        dashboard: document.getElementById('dashboard'),
+        registrar: document.getElementById('registrar'),
+        student: document.getElementById('student'),
+        finance: document.getElementById('finance'),
+        department: document.getElementById('department'),
+        parent: document.getElementById('parent'),
+        teacher: document.getElementById('teacher'),
+        ai: document.getElementById('ai')
+      };
+
+      function setActiveView(viewName) {
+        Object.entries(views).forEach(([key, panel]) => {
+          if (panel) {
+            panel.classList.toggle('hidden', key !== viewName);
+          }
+        });
+
+        sidebarLinks.forEach((link) => {
+          const active = link.dataset.view === viewName;
+          link.classList.toggle('active', active);
+          link.classList.toggle('text-slate-200', active);
+          link.classList.toggle('text-slate-300', !active);
+        });
+      }
+
+      sidebarLinks.forEach((link) => {
+        link.addEventListener('click', () => {
+          setActiveView(link.dataset.view);
+        });
+      });
+
+      document.getElementById('generate-report').addEventListener('click', () => {
+        alert('AI report generated successfully for the SuperAdmin overview.');
+        console.log('Generate Report clicked');
+      });
+
+      document.getElementById('register-student').addEventListener('click', () => {
+        const faydaValue = document.getElementById('fayda-input').value.trim();
+        if (!faydaValue) {
+          alert('Fayda ID is mandatory for all grades');
+          return;
+        }
+        alert('Student registration submitted successfully.');
+        console.log('Registrar: student registered');
+      });
+
+      document.getElementById('bulk-register').addEventListener('click', () => {
+        alert('Bulk registration process launched successfully.');
+        console.log('Bulk registration started');
+      });
+
+      document.getElementById('verify-fayda').addEventListener('click', () => {
+        const faydaValue = document.getElementById('fayda-input').value.trim();
+        if (!faydaValue) {
+          alert('Fayda ID is mandatory for all grades');
+          return;
+        }
+        alert('Fayda NID verified successfully.');
+        console.log('Fayda verification completed');
+      });
+
+      document.getElementById('submit-student-registration').addEventListener('click', (event) => {
+        event.preventDefault();
+        alert('Student self-registration submitted successfully.');
+        console.log('Student self-registration saved');
+      });
+
+      document.querySelectorAll('.approve-payment').forEach((button) => {
+        button.addEventListener('click', () => {
+          alert('Fee payment approved successfully.');
+          console.log('Payment approved');
+        });
+      });
+
+      document.querySelectorAll('.reject-payment').forEach((button) => {
+        button.addEventListener('click', () => {
+          alert('Payment rejected and notification sent to the student.');
+          console.log('Payment rejected');
+        });
+      });
+
+      document.querySelectorAll('.approve-doc').forEach((button) => {
+        button.addEventListener('click', () => {
+          alert('Academic document approved.');
+          console.log('Document approved');
+        });
+      });
+
+      document.querySelectorAll('.reject-doc').forEach((button) => {
+        button.addEventListener('click', () => {
+          alert('Academic document rejected.');
+          console.log('Document rejected');
+        });
+      });
+
+      document.getElementById('search-child').addEventListener('click', () => {
+        const childId = document.getElementById('child-fayda-id').value.trim();
+        if (!childId) {
+          alert('Please enter a valid Child Fayda ID to search.');
+          return;
+        }
+        alert('Child record found for Fayda ID: ' + childId);
+        console.log('Parent search executed for child ID:', childId);
+      });
+
+      document.querySelectorAll('.mark-attendance').forEach((button) => {
+        button.addEventListener('click', () => {
+          const studentName = button.parentElement.querySelector('span').textContent.trim();
+          const status = button.textContent.trim();
+          alert(`${studentName} marked as ${status}.`);
+          console.log(`Attendance updated: ${studentName} -> ${status}`);
+        });
+      });
+
+      document.getElementById('save-exam-grade').addEventListener('click', () => {
+        alert('Online exam grade saved successfully.');
+        console.log('Exam grade saved');
+      });
+
+      document.getElementById('refresh-ai-report').addEventListener('click', () => {
+        alert('AI summary refreshed successfully.');
+        console.log('AI report refreshed');
+      });
+
+      setActiveView('dashboard');
+    </script>
+  </body>
+</html>
