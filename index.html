@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KlemeSaaS Dashboard</title>
+    <title>KlemeSaaS | Unified School Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -11,444 +11,1529 @@
           extend: {
             colors: {
               brand: {
-                50: '#eef7ff',
-                100: '#dfeeff',
+                50: '#eef6ff',
+                100: '#dbeafe',
                 500: '#3b82f6',
                 600: '#2563eb',
                 700: '#1d4ed8',
                 900: '#0f172a'
               },
-              darkbg: '#0b1120',
-              panel: '#111827',
-              accent: '#14b8a6',
+              success: '#10b981',
               warn: '#f59e0b',
-              danger: '#ef4444'
+              danger: '#ef4444',
+              accent: '#14b8a6',
+              slatebg: '#0f172a'
             },
             boxShadow: {
-              soft: '0 20px 45px rgba(15, 23, 42, 0.18)'
+              soft: '0 22px 60px rgba(15, 23, 42, 0.12)',
+              glow: '0 18px 48px rgba(37, 99, 235, 0.22)'
             }
           }
         }
       };
     </script>
     <style>
+      :root {
+        --bg-1: #f8fafc;
+        --bg-2: #eff6ff;
+        --sidebar: #0f172a;
+        --sidebar-2: #111827;
+        --panel: rgba(255, 255, 255, 0.94);
+        --line: rgba(148, 163, 184, 0.2);
+        --text: #0f172a;
+        --muted: #64748b;
+        --primary: #2563eb;
+        --primary-soft: #dbeafe;
+        --success: #10b981;
+        --danger: #ef4444;
+        --warning: #f59e0b;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
       body {
-        background: linear-gradient(135deg, #f8fafc 0%, #eef6ff 100%);
+        margin: 0;
+        background: linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+        color: var(--text);
+        font-family: Inter, 'Segoe UI', sans-serif;
       }
 
-      .sidebar-link.active {
-        background: rgba(59, 130, 246, 0.12);
-        color: #dbeafe;
-        border-left: 3px solid #60a5fa;
+      .app-shell {
+        min-height: 100vh;
+        display: flex;
       }
 
-      .view-panel {
-        transition: all 0.25s ease;
+      .sidebar {
+        width: 290px;
+        background: linear-gradient(180deg, var(--sidebar) 0%, var(--sidebar-2) 100%);
+        color: white;
+        border-right: 1px solid rgba(148, 163, 184, 0.18);
+        padding: 22px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 22px;
+      }
+
+      .sidebar-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      }
+
+      .brand-mark {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%);
+        box-shadow: 0 12px 28px rgba(59, 130, 246, 0.28);
+        font-weight: 900;
+        font-size: 20px;
+        color: white;
+      }
+
+      .brand-text {
+        font-size: 1.15rem;
+        font-weight: 900;
+        letter-spacing: -0.03em;
+      }
+
+      .brand-sub {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: rgba(148, 163, 184, 0.9);
+      }
+
+      .nav-block {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: rgba(148, 163, 184, 0.8);
+        padding: 0 8px;
+      }
+
+      .role-link {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 14px;
+        color: rgba(226, 232, 240, 0.9);
+        padding: 12px 14px;
+        font-weight: 700;
+        font-size: 0.92rem;
+        text-align: left;
+        cursor: pointer;
+        transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+      }
+
+      .role-link:hover {
+        background: rgba(15, 23, 42, 0.46);
+        border-color: rgba(148, 163, 184, 0.18);
+        transform: translateX(1px);
+      }
+
+      .role-link.active {
+        background: rgba(30, 41, 59, 0.9);
+        border-color: rgba(148, 163, 184, 0.28);
+        color: white;
+      }
+
+      .side-summary {
+        margin-top: auto;
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 18px;
+        padding: 14px 14px 12px;
+      }
+
+      .summary-title {
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+        color: rgba(148, 163, 184, 0.9);
+      }
+
+      .summary-body {
+        margin-top: 8px;
+        font-size: 0.88rem;
+        line-height: 1.6;
+        color: rgba(226, 232, 240, 0.85);
+      }
+
+      .main-panel {
+        flex: 1;
+        padding: 28px 28px 32px;
+      }
+
+      .frame {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.06);
+        border-radius: 30px;
+      }
+
+      .header-card {
+        padding: 20px 22px 18px;
+      }
+
+      .header-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+
+      .eyebrow {
+        font-size: 10px;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        font-weight: 800;
+        color: #2563eb;
+      }
+
+      .page-title {
+        font-size: clamp(1.9rem, 2vw, 2.8rem);
+        letter-spacing: -0.04em;
+        font-weight: 900;
+        margin-top: 10px;
+      }
+
+      .header-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border-radius: 999px;
+        background: rgba(16, 185, 129, 0.12);
+        color: #047857;
+        padding: 8px 12px;
+        font-weight: 800;
+        font-size: 0.75rem;
+      }
+
+      .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: currentColor;
+      }
+
+      .dashboard-metrics {
+        margin-top: 20px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .metric-card {
+        background: #f8fafc;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 22px;
+        padding: 16px 18px;
+      }
+
+      .metric-type {
+        color: var(--muted);
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      .metric-value {
+        font-size: 2.1rem;
+        font-weight: 900;
+        margin-top: 12px;
+        letter-spacing: -0.05em;
+      }
+
+      .metric-note {
+        color: var(--muted);
+        margin-top: 8px;
+        font-size: 0.83rem;
+      }
+
+      .avatar-strip {
+        margin-top: 22px;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .campus-hero {
+        grid-column: 1 / -1;
+        position: relative;
+        min-height: 250px;
+        overflow: hidden;
+        border-radius: 26px;
+        border: 1px solid rgba(148, 163, 184, 0.26);
+        background: linear-gradient(135deg, #dfeaf7 0%, #b9d3eb 100%);
+        box-shadow: 0 30px 60px -34px rgba(15, 23, 42, 0.55);
+      }
+
+      .campus-hero img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover;
+        filter: saturate(1.05) contrast(1.08);
+      }
+
+      .campus-hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.18) 0%, rgba(15, 23, 42, 0.62) 100%);
+      }
+
+      .campus-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 22px 24px;
+      }
+
+      .campus-badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 7px 12px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        color: white;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        backdrop-filter: blur(8px);
+      }
+
+      .campus-title {
+        max-width: 320px;
+        color: white;
+        font-size: 2rem;
+        font-weight: 900;
+        letter-spacing: -0.06em;
+        line-height: 1;
+        text-shadow: 0 10px 30px rgba(15, 23, 42, 0.35);
+      }
+
+      .campus-avatars {
+        grid-column: 1 / -1;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: -54px;
+        padding: 0 12px 8px;
+        position: relative;
+        z-index: 2;
+      }
+
+      .avatar-card {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 250, 252, 0.96) 100%);
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        border-radius: 20px;
+        padding: 12px;
+        box-shadow: 0 18px 30px -20px rgba(15, 23, 42, 0.6);
+        backdrop-filter: blur(6px);
+      }
+
+      .avatar-svg {
+        width: 100%;
+        height: 150px;
+        display: block;
+        object-fit: cover;
+        border-radius: 16px;
+      }
+
+      .avatar-label {
+        text-align: center;
+        font-weight: 800;
+        margin-top: 10px;
+        color: #0f172a;
+        font-size: 0.9rem;
+      }
+
+      .role-content {
+        margin-top: 22px;
+        display: none;
+      }
+
+      .role-content.active {
+        display: block;
+      }
+
+      .panel-section {
+        padding: 22px 22px 16px;
+      }
+
+      .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        flex-wrap: wrap;
+        padding-bottom: 14px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.18);
+      }
+
+      .section-title {
+        font-size: 1.65rem;
+        font-weight: 900;
+        letter-spacing: -0.04em;
+      }
+
+      .section-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        border-radius: 999px;
+        font-weight: 800;
+        font-size: 0.74rem;
+        padding: 8px 12px;
+      }
+
+      .badge-green {
+        color: #047857;
+        background: rgba(16, 185, 129, 0.12);
+      }
+
+      .badge-amber {
+        color: #b45309;
+        background: rgba(245, 158, 11, 0.12);
+      }
+
+      .badge-blue {
+        color: #1d4ed8;
+        background: rgba(59, 130, 246, 0.11);
+      }
+
+      .card-grid {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+
+      .mini-card {
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: #f8fafc;
+        padding: 18px 18px 16px;
+      }
+
+      .mini-card-label {
+        font-size: 10px;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--muted);
+        font-weight: 800;
+      }
+
+      .mini-card-value {
+        margin-top: 14px;
+        font-size: 2.2rem;
+        font-weight: 900;
+        letter-spacing: -0.06em;
+      }
+
+      .mini-card-note {
+        margin-top: 9px;
+        font-size: 0.85rem;
+        color: var(--muted);
+      }
+
+      .two-col {
+        margin-top: 18px;
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 18px;
+      }
+
+      .panel-box {
+        border: 1px solid var(--line);
+        background: #f8fafc;
+        border-radius: 22px;
+        padding: 18px;
+      }
+
+      .panel-box h3 {
+        margin: 0;
+        font-size: 1.08rem;
+        font-weight: 900;
+      }
+
+      .form-grid {
+        margin-top: 16px;
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .field label {
+        font-size: 0.82rem;
+        font-weight: 800;
+        color: #334155;
+      }
+
+      .field input,
+      .field select,
+      .field textarea,
+      .field button {
+        width: 100%;
+        border-radius: 14px;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        background: white;
+        padding: 12px 13px;
+        font-size: 0.95rem;
+        color: #0f172a;
+        outline: none;
+      }
+
+      .field input:focus,
+      .field select:focus,
+      .field textarea:focus {
+        border-color: rgba(37, 99, 235, 0.75);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      }
+
+      .field textarea {
+        min-height: 130px;
+        resize: vertical;
+      }
+
+      .full-span {
+        grid-column: 1 / -1;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .alert-btn,
+      .ghost-btn {
+        border: none;
+        border-radius: 14px;
+        padding: 12px 16px;
+        font-weight: 800;
+        cursor: pointer;
+        transition: transform 0.2s ease, opacity 0.2s ease;
+      }
+
+      .primary-btn:hover,
+      .secondary-btn:hover,
+      .alert-btn:hover,
+      .ghost-btn:hover {
+        transform: translateY(-1px);
+      }
+
+      .primary-btn {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+        color: white;
+        box-shadow: 0 14px 30px rgba(37, 99, 235, 0.2);
+      }
+
+      .secondary-btn {
+        background: #0f172a;
+        color: white;
+      }
+
+      .alert-btn {
+        background: rgba(239, 68, 68, 0.08);
+        color: #b91c1c;
+      }
+
+      .ghost-btn {
+        background: rgba(37, 99, 235, 0.08);
+        color: #1d4ed8;
+      }
+
+      .document-list,
+      .roster-list,
+      .top-performers,
+      .finance-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 18px;
+      }
+
+      .doc-item,
+      .roster-item,
+      .performer-item,
+      .finance-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: white;
+        border-radius: 16px;
+        padding: 12px 14px;
+      }
+
+      .doc-item span,
+      .roster-item span,
+      .performer-item span,
+      .finance-item span {
+        font-weight: 700;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: 800;
+      }
+
+      .chip-green {
+        background: rgba(16, 185, 129, 0.12);
+        color: #047857;
+      }
+
+      .chip-amber {
+        background: rgba(245, 158, 11, 0.12);
+        color: #b45309;
+      }
+
+      .chip-red {
+        background: rgba(239, 68, 68, 0.08);
+        color: #b91c1c;
+      }
+
+      .chart-box {
+        margin-top: 18px;
+        background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
+        border-radius: 24px;
+        padding: 18px 18px 26px;
+      }
+
+      .chart-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+      }
+
+      .chart-title {
+        font-size: 1rem;
+        font-weight: 900;
+        color: white;
+      }
+
+      .chart-legend {
+        font-size: 0.72rem;
+        letter-spacing: 0.16em;
+        color: rgba(191, 219, 254, 0.86);
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+
+      .bar-chart {
+        height: 220px;
+        margin-top: 18px;
+        display: flex;
+        align-items: end;
+        gap: 14px;
+      }
+
+      .bar {
+        position: relative;
+        flex: 1;
+        border-radius: 12px 12px 0 0;
+        min-height: 22px;
+        background: linear-gradient(180deg, #60a5fa 0%, #2563eb 100%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        display: flex;
+        align-items: flex-start;
+        justify-content: center;
+        padding-top: 10px;
+        color: rgba(191, 219, 254, 0.92);
+        font-weight: 800;
+        font-size: 11px;
+      }
+
+      .bar::after {
+        content: attr(data-label);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -26px;
+        color: rgba(148, 163, 184, 0.9);
+        font-size: 10px;
+        font-weight: 800;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        text-align: left;
+        padding: 13px 12px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.16);
+      }
+
+      th {
+        background: #f8fafc;
+        font-size: 11px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: #475569;
+        font-weight: 900;
+      }
+
+      tbody tr {
+        background: white;
+      }
+
+      tbody tr:hover {
+        background: #f8fafc;
+      }
+
+      .td-strong {
+        font-weight: 800;
+        color: #0f172a;
+      }
+
+      .status-pass {
+        color: #047857;
+        font-weight: 800;
+      }
+
+      .status-fail {
+        color: #b91c1c;
+        font-weight: 800;
+      }
+
+      .row-actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+
+      .tiny-btn {
+        border: none;
+        border-radius: 10px;
+        padding: 8px 10px;
+        font-weight: 800;
+        cursor: pointer;
+        font-size: 0.75rem;
+      }
+
+      .tiny-btn.confirm {
+        background: rgba(16, 185, 129, 0.12);
+        color: #047857;
+      }
+
+      .tiny-btn.reject {
+        background: rgba(239, 68, 68, 0.08);
+        color: #b91c1c;
+      }
+
+      .receipt-preview {
+        width: 100%;
+        max-width: 260px;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 14px;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      }
+
+      .receipt-empty {
+        display: grid;
+        place-items: center;
+        width: 100%;
+        max-width: 260px;
+        height: 120px;
+        border-radius: 14px;
+        border: 1px dashed rgba(148, 163, 184, 0.6);
+        color: #64748b;
+        background: #f8fafc;
+        font-size: 0.8rem;
+        font-weight: 700;
+      }
+
+      .login-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(15, 23, 42, 0.78);
+        backdrop-filter: blur(6px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+      }
+
+      .login-overlay.hidden {
+        display: none;
+      }
+
+      .login-box {
+        width: min(520px, calc(100vw - 28px));
+        background: rgba(15, 23, 42, 0.94);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 28px;
+        padding: 28px;
+        box-shadow: 0 22px 60px rgba(15, 23, 42, 0.35);
+      }
+
+      .login-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .login-brand-mark {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+        display: grid;
+        place-items: center;
+        background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%);
+        color: white;
+        font-weight: 900;
+        font-size: 1.2rem;
+      }
+
+      .login-title {
+        margin-top: 18px;
+        font-size: 2rem;
+        font-weight: 900;
+        letter-spacing: -0.05em;
+        color: white;
+      }
+
+      .login-sub {
+        margin-top: 6px;
+        color: rgba(226, 232, 240, 0.7);
+      }
+
+      .login-form {
+        margin-top: 22px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .login-form .field label {
+        color: rgba(226, 232, 240, 0.8);
+      }
+
+      .login-form .field input,
+      .login-form .field select {
+        background: rgba(15, 23, 42, 0.7);
+        color: white;
+        border-color: rgba(148, 163, 184, 0.24);
+      }
+
+      .login-button {
+        margin-top: 8px;
+        width: 100%;
+        border: none;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #2563eb 0%, #14b8a6 100%);
+        color: white;
+        font-weight: 900;
+        padding: 14px 16px;
+        cursor: pointer;
+      }
+
+      .hidden-screen {
+        display: none !important;
+      }
+
+      @media (max-width: 1100px) {
+        .dashboard-metrics,
+        .card-grid,
+        .avatar-strip {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .two-col {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 820px) {
+        .app-shell {
+          display: block;
+        }
+
+        .sidebar {
+          width: 100%;
+        }
+
+        .main-panel {
+          padding: 18px;
+        }
+
+        .dashboard-metrics,
+        .card-grid,
+        .avatar-strip,
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
       }
     </style>
   </head>
-  <body class="min-h-screen text-slate-800">
-    <div class="flex min-h-screen">
-      <aside class="w-72 bg-slate-950 text-slate-200 flex flex-col">
-        <div class="flex items-center gap-3 px-6 py-6 border-b border-slate-800">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-400 flex items-center justify-center shadow-lg shadow-blue-500/30">
-            <span class="text-lg font-bold text-white">K</span>
-          </div>
+  <body>
+    <div id="loginOverlay" class="login-overlay">
+      <div class="login-box">
+        <div class="login-brand">
+          <div class="login-brand-mark">K</div>
           <div>
-            <h1 class="text-xl font-bold text-white">KlemeSaaS</h1>
-            <p class="text-xs text-slate-400">Unified School Ecosystem</p>
+            <div class="text-white text-xl font-black">KlemeSaaS</div>
+            <div class="text-[10px] uppercase tracking-[0.22em] text-slate-400">Unified School Platform</div>
           </div>
         </div>
 
-        <nav class="mt-6 px-4 space-y-2">
-          <button data-view="dashboard" class="sidebar-link active w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-200">
-            <span class="text-lg">◉</span>
-            <span>Dashboard</span>
-          </button>
-          <button data-view="registrar" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
-            <span class="text-lg">▣</span>
-            <span>Registrar Portal</span>
-          </button>
-          <button data-view="student" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
-            <span class="text-lg">🎓</span>
-            <span>Student Portal</span>
-          </button>
-          <button data-view="finance" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
-            <span class="text-lg">💰</span>
-            <span>Finance Head</span>
-          </button>
-          <button data-view="department" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
-            <span class="text-lg">📘</span>
-            <span>Department Head</span>
-          </button>
-          <button data-view="parent" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
-            <span class="text-lg">👨‍👩‍👧</span>
-            <span>Parent Portal</span>
-          </button>
-          <button data-view="teacher" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
-            <span class="text-lg">🧑‍🏫</span>
-            <span>Teacher Portal</span>
-          </button>
-          <button data-view="ai" class="sidebar-link w-full text-left flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-slate-300 hover:bg-slate-800/80">
-            <span class="text-lg">🤖</span>
-            <span>AI Insights Report</span>
-          </button>
-        </nav>
+        <div class="login-title">Secure Sign In</div>
+        <div class="login-sub">Use your institution email and role to access your assigned workspace.</div>
 
-        <div class="mt-auto px-4 pb-6">
-          <div class="rounded-2xl bg-gradient-to-br from-blue-600/20 to-cyan-500/10 border border-blue-500/20 p-4">
-            <p class="text-xs uppercase tracking-[0.2em] text-blue-200/80">System Health</p>
-            <div class="mt-3 flex items-center justify-between">
-              <span class="text-sm text-slate-300">Operations</span>
-              <span class="text-sm font-semibold text-emerald-400">98.4%</span>
-            </div>
+        <form id="loginForm" class="login-form">
+          <div class="field">
+            <label for="loginEmail">Email</label>
+            <input id="loginEmail" type="email" placeholder="name@school.edu" required />
           </div>
+
+          <div class="field">
+            <label for="loginPassword">Password</label>
+            <input id="loginPassword" type="password" placeholder="Enter password" required />
+          </div>
+
+          <div class="field">
+            <label for="loginRole">Role</label>
+            <select id="loginRole" required>
+              <option value="">Select role</option>
+              <option value="SuperAdmin">SuperAdmin</option>
+              <option value="Registrar">Registrar</option>
+              <option value="Student">Student</option>
+              <option value="FinanceHead">FinanceHead</option>
+              <option value="DepartmentHead">DepartmentHead</option>
+              <option value="Teacher">Teacher</option>
+              <option value="Parent">Parent</option>
+            </select>
+          </div>
+
+          <button type="submit" class="login-button">Sign In</button>
+        </form>
+      </div>
+    </div>
+
+    <div id="appShell" class="app-shell hidden-screen">
+      <aside class="sidebar">
+        <div class="sidebar-header">
+          <div class="brand-mark">K</div>
+          <div>
+            <div id="sidebarSchoolName" class="brand-text">KlemeSaaS</div>
+            <div class="brand-sub">Cloud Education Suite</div>
+          </div>
+        </div>
+
+        <div class="nav-block">
+          <div class="nav-label">Role Access</div>
+          <button class="role-link active" data-role="SuperAdmin"> <span>SuperAdmin</span> <span>◎</span> </button>
+          <button class="role-link" data-role="Registrar"> <span>Registrar</span> <span>▣</span> </button>
+          <button class="role-link" data-role="Student"> <span>Student</span> <span>◍</span> </button>
+          <button class="role-link" data-role="FinanceHead"> <span>FinanceHead</span> <span>◬</span> </button>
+          <button class="role-link" data-role="DepartmentHead"> <span>DepartmentHead</span> <span>◫</span> </button>
+          <button class="role-link" data-role="Teacher"> <span>Teacher</span> <span>✦</span> </button>
+          <button class="role-link" data-role="Parent"> <span>Parent</span> <span>◐</span> </button>
+        </div>
+
+        <div class="side-summary">
+          <div class="summary-title">AI Summary</div>
+          <div class="summary-body">Enrollment is up 18.4% this term and 96% of records are verified.</div>
+        </div>
+
+        <button id="logoutBtn" class="secondary-btn" type="button">Logout</button>
+
+        <div class="mt-3 border-t border-slate-700/80 pt-3 text-center text-[10px] font-medium tracking-wide text-slate-400 opacity-80">
+          © 2026 Amanuel Mekonen | v1.0.0 Enterprise Platform
         </div>
       </aside>
 
-      <main class="flex-1 p-6 lg:p-8">
-        <section id="dashboard" class="view-panel">
-          <header class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <main class="main-panel">
+        <header class="frame header-card">
+          <div class="header-top">
             <div>
-              <p class="text-sm font-medium uppercase tracking-[0.18em] text-blue-600">Overview</p>
-              <h2 class="mt-1 text-3xl font-bold text-slate-900">SuperAdmin Overview</h2>
+              <div class="eyebrow">Institution Setup</div>
+              <div class="page-title">KlemeSaaS Administration Hub</div>
             </div>
+            <div class="header-status"><span class="status-dot"></span> All Systems Live</div>
+          </div>
 
-            <div class="flex items-center gap-3">
-              <button id="generate-report" class="rounded-xl bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-lg shadow-blue-600/20 hover:bg-blue-500">
-                Generate Report
-              </button>
+          <div class="dashboard-metrics">
+            <div class="metric-card">
+              <div class="metric-type">Students</div>
+              <div class="metric-value">1,284</div>
+              <div class="metric-note">+12.6% intake</div>
             </div>
-          </header>
-
-          <div class="grid gap-5 md:grid-cols-3">
-            <div class="rounded-2xl bg-gradient-to-br from-slate-900 to-slate-800 p-5 text-white shadow-soft">
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-slate-300">Total Registered Schools</span>
-                <span class="rounded-full bg-blue-500/20 px-2 py-1 text-xs font-medium text-blue-200">+12%</span>
-              </div>
-              <div class="mt-6 text-3xl font-bold">24</div>
+            <div class="metric-card">
+              <div class="metric-type">Attendance</div>
+              <div class="metric-value">94%</div>
+              <div class="metric-note">Across all grades</div>
             </div>
-
-            <div class="rounded-2xl bg-gradient-to-br from-cyan-500 to-blue-600 p-5 text-white shadow-soft">
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-cyan-50/90">Students with Fayda ID</span>
-                <span class="rounded-full bg-white/15 px-2 py-1 text-xs font-medium text-cyan-50">+8.4%</span>
-              </div>
-              <div class="mt-6 text-3xl font-bold">1,250</div>
+            <div class="metric-card">
+              <div class="metric-type">Pass Rate</div>
+              <div class="metric-value">88%</div>
+              <div class="metric-note">Term performance</div>
             </div>
-
-            <div class="rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-500 p-5 text-white shadow-soft">
-              <div class="flex items-center justify-between">
-                <span class="text-sm text-emerald-50/90">Active Exams / Teachers</span>
-                <span class="rounded-full bg-white/15 px-2 py-1 text-xs font-medium text-emerald-50">Live</span>
-              </div>
-              <div class="mt-6 text-3xl font-bold">18</div>
+            <div class="metric-card">
+              <div class="metric-type">Fee Clearance</div>
+              <div class="metric-value">96%</div>
+              <div class="metric-note">Approved this cycle</div>
             </div>
           </div>
 
-          <div class="mt-8 rounded-3xl bg-white shadow-soft border border-slate-200 overflow-hidden">
-            <div class="flex items-center justify-between border-b border-slate-200 px-6 py-4">
-              <div>
-                <h3 class="text-xl font-bold text-slate-900">Operational Summary</h3>
-                <p class="text-sm text-slate-500">School status across the platform</p>
+          <div class="avatar-strip">
+            <div class="campus-hero">
+              <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?auto=format&fit=crop&w=1600&q=80" alt="Modern university campus building" />
+              <div class="campus-overlay">
+                <div class="campus-badge">Campus View</div>
+                <div class="campus-title">Academic Excellence</div>
               </div>
             </div>
 
-            <div class="overflow-x-auto">
-              <table class="min-w-full divide-y divide-slate-200">
-                <thead class="bg-slate-50">
-                  <tr>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">School Name</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Sector</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">School Type</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Male</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Female</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Status</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200 bg-white">
-                  <tr>
-                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Bright Future Academy</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">Primary</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">Private</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">420</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">390</td>
-                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Active</span></td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Aster International School</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">Secondary</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">Government</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">510</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">470</td>
-                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Active</span></td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 text-sm font-medium text-slate-900">North City University</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">University</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">Private</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">780</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">690</td>
-                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Active</span></td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="campus-avatars">
+              <div class="avatar-card">
+                <img class="avatar-svg" src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80" alt="Male student in academic gown" />
+                <div class="avatar-label">Student Male</div>
+              </div>
+
+              <div class="avatar-card">
+                <img class="avatar-svg" src="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=900&q=80" alt="Female student in academic gown" />
+                <div class="avatar-label">Student Female</div>
+              </div>
+
+              <div class="avatar-card">
+                <img class="avatar-svg" src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80" alt="Male teacher in academic gown" />
+                <div class="avatar-label">Teacher Male</div>
+              </div>
+
+              <div class="avatar-card">
+                <img class="avatar-svg" src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=900&q=80" alt="Female teacher in academic gown" />
+                <div class="avatar-label">Teacher Female</div>
+              </div>
             </div>
           </div>
-        </section>
+        </header>
 
-        <section id="registrar" class="view-panel hidden">
-          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
-            <h3 class="text-2xl font-bold text-slate-900">Registrar Portal</h3>
-            <p class="mt-1 text-sm text-slate-500">Bulk student registration with mandatory Fayda NID validation</p>
+        <section id="SuperAdmin" class="role-content active">
+          <div class="frame panel-section">
+            <div class="section-head">
+              <div class="section-title">SuperAdmin Master Panel</div>
+              <div class="section-badge badge-green">Operational</div>
+            </div>
 
-            <div class="mt-6 grid gap-6 lg:grid-cols-2">
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium text-slate-700 mb-1">Full Name</label>
-                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter student name" />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-slate-700 mb-1">Grade Level</label>
-                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Grade 1, 7, 12..." />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-slate-700 mb-1">Department</label>
-                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Science / Arts / Commerce" />
+            <div class="card-grid">
+              <div class="mini-card">
+                <div class="mini-card-label">Registrar Entry Metrics</div>
+                <div class="mini-card-value">1,284</div>
+                <div class="mini-card-note">New enrollments processed</div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-card-label">Finance Review Queue</div>
+                <div class="mini-card-value">126</div>
+                <div class="mini-card-note">Payment verification items</div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-card-label">Department Rosters</div>
+                <div class="mini-card-value">48</div>
+                <div class="mini-card-note">Active class sections</div>
+              </div>
+            </div>
+
+            <div class="two-col">
+              <div class="panel-box">
+                <h3>Teacher Uploaded Exams</h3>
+                <div class="document-list">
+                  <div class="doc-item"><span>Biology Midterm</span><span class="chip chip-green">Published</span></div>
+                  <div class="doc-item"><span>English Final</span><span class="chip chip-amber">Reviewing</span></div>
+                  <div class="doc-item"><span>Chemistry Quiz</span><span class="chip chip-green">Published</span></div>
                 </div>
               </div>
 
-              <div class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium text-slate-700 mb-1">Fayda NID / National ID</label>
-                  <input type="text" id="fayda-input" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Mandatory for all grades" />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-slate-700 mb-1">School</label>
-                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="School name" />
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-slate-700 mb-1">Batch / Academic Year</label>
-                  <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="2025 / 2026" />
+              <div class="panel-box">
+                <h3>Parent Lookups</h3>
+                <div class="document-list">
+                  <div class="doc-item"><span>Parent Portal Access</span><span class="chip chip-blue">220 active</span></div>
+                  <div class="doc-item"><span>Unresolved Queries</span><span class="chip chip-amber">18</span></div>
+                  <div class="doc-item"><span>Attendance Follow-up</span><span class="chip chip-green">92% resolved</span></div>
                 </div>
               </div>
             </div>
 
-            <div class="mt-6 flex flex-wrap gap-3">
-              <button id="register-student" class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">Register Student</button>
-              <button id="bulk-register" class="rounded-xl border border-slate-200 bg-slate-50 px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Bulk Upload</button>
-              <button id="verify-fayda" class="rounded-xl border border-emerald-200 bg-emerald-50 px-5 py-3 text-sm font-semibold text-emerald-700 hover:bg-emerald-100">Verify Fayda NID</button>
-            </div>
-          </div>
-        </section>
-
-        <section id="student" class="view-panel hidden">
-          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
-            <h3 class="text-2xl font-bold text-slate-900">Student Portal</h3>
-            <p class="mt-1 text-sm text-slate-500">Self-registration and enrollment updates</p>
-
-            <form class="mt-6 grid gap-5 md:grid-cols-2">
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Student Name</label>
-                <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your full name" />
+            <div class="chart-box">
+              <div class="chart-head">
+                <div class="chart-title">AI Analytics Dashboard</div>
+                <div class="chart-legend">Enrollment • Performance</div>
               </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Email</label>
-                <input type="email" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="name@example.com" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Grade Level</label>
-                <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Grade 9" />
-              </div>
-              <div>
-                <label class="block text-sm font-medium text-slate-700 mb-1">Fayda ID</label>
-                <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Mandatory" />
-              </div>
-              <div class="md:col-span-2">
-                <label class="block text-sm font-medium text-slate-700 mb-1">School / Department</label>
-                <input type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Department or school" />
-              </div>
-              <div class="md:col-span-2 flex justify-end">
-                <button id="submit-student-registration" class="rounded-xl bg-emerald-600 px-5 py-3 text-sm font-semibold text-white hover:bg-emerald-500">Submit Registration</button>
-              </div>
-            </form>
-          </div>
-        </section>
-
-        <section id="finance" class="view-panel hidden">
-          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
-            <h3 class="text-2xl font-bold text-slate-900">Finance Head</h3>
-            <p class="mt-1 text-sm text-slate-500">Verify fee payments and approve or reject pending items</p>
-
-            <div class="mt-6 overflow-x-auto">
-              <table class="min-w-full divide-y divide-slate-200">
-                <thead class="bg-slate-50">
-                  <tr>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Student</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Fayda ID</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Fee Amount</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Status</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Action</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200 bg-white">
-                  <tr>
-                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Aliya Bekele</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">ET-7821</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">$420</td>
-                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">Pending</span></td>
-                    <td class="px-6 py-4 space-x-2">
-                      <button class="approve-payment rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Approve Payment</button>
-                      <button class="reject-payment rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500">Reject</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Mekdes Tadesse</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">ET-9012</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">$580</td>
-                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">Pending</span></td>
-                    <td class="px-6 py-4 space-x-2">
-                      <button class="approve-payment rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Approve Payment</button>
-                      <button class="reject-payment rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500">Reject</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section id="department" class="view-panel hidden">
-          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
-            <h3 class="text-2xl font-bold text-slate-900">Department Head</h3>
-            <p class="mt-1 text-sm text-slate-500">Approve academic documents and identify student national ID completeness</p>
-
-            <div class="mt-6 overflow-x-auto">
-              <table class="min-w-full divide-y divide-slate-200">
-                <thead class="bg-slate-50">
-                  <tr>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Student</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Academic Document</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">NID Status</th>
-                    <th class="px-6 py-4 text-left text-xs font-semibold uppercase tracking-wider text-slate-600">Action</th>
-                  </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-200 bg-white">
-                  <tr>
-                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Samuel Haile</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">Transcript Verified</td>
-                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700">Approved</span></td>
-                    <td class="px-6 py-4 space-x-2">
-                      <button class="approve-doc rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Approve</button>
-                      <button class="reject-doc rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500">Reject</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td class="px-6 py-4 text-sm font-medium text-slate-900">Hanna Tesfaye</td>
-                    <td class="px-6 py-4 text-sm text-slate-600">Certificate Pending</td>
-                    <td class="px-6 py-4"><span class="inline-flex rounded-full bg-amber-100 px-2.5 py-1 text-xs font-semibold text-amber-700">Review</span></td>
-                    <td class="px-6 py-4 space-x-2">
-                      <button class="approve-doc rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Approve</button>
-                      <button class="reject-doc rounded-lg bg-red-600 px-3 py-2 text-xs font-semibold text-white hover:bg-red-500">Reject</button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <section id="parent" class="view-panel hidden">
-          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
-            <h3 class="text-2xl font-bold text-slate-900">Parent Portal</h3>
-            <p class="mt-1 text-sm text-slate-500">Search child by Fayda ID to review attendance and academic performance</p>
-
-            <div class="mt-6 flex flex-col gap-4 md:flex-row md:items-end">
-              <div class="flex-1">
-                <label class="block text-sm font-medium text-slate-700 mb-1">Child Fayda ID</label>
-                <input id="child-fayda-id" type="text" class="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Enter child Fayda ID" />
-              </div>
-              <button id="search-child" class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">Search</button>
-            </div>
-
-            <div class="mt-8 rounded-2xl border border-slate-200 bg-slate-50 p-5">
-              <div class="grid gap-5 md:grid-cols-3">
-                <div class="rounded-2xl bg-white p-4 shadow-sm">
-                  <p class="text-sm text-slate-500">Attendance</p>
-                  <p class="mt-2 text-2xl font-bold text-slate-900">95%</p>
-                </div>
-                <div class="rounded-2xl bg-white p-4 shadow-sm">
-                  <p class="text-sm text-slate-500">Performance</p>
-                  <p class="mt-2 text-2xl font-bold text-slate-900">A-</p>
-                </div>
-                <div class="rounded-2xl bg-white p-4 shadow-sm">
-                  <p class="text-sm text-slate-500">Current Grade</p>
-                  <p class="mt-2 text-2xl font-bold text-slate-900">Grade 10</p>
-                </div>
+              <div class="bar-chart">
+                <div class="bar" data-label="Jan" style="height: 34%">34</div>
+                <div class="bar" data-label="Feb" style="height: 42%">42</div>
+                <div class="bar" data-label="Mar" style="height: 58%">58</div>
+                <div class="bar" data-label="Apr" style="height: 66%">66</div>
+                <div class="bar" data-label="May" style="height: 82%">82</div>
+                <div class="bar" data-label="Jun" style="height: 74%">74</div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="teacher" class="view-panel hidden">
-          <div class="rounded-3xl bg-white shadow-soft border border-slate-200 p-6">
-            <h3 class="text-2xl font-bold text-slate-900">Teacher Portal</h3>
-            <p class="mt-1 text-sm text-slate-500">Track attendance and enter online exam grades</p>
+        <section id="Registrar" class="role-content">
+          <div class="frame panel-section">
+            <div class="section-head">
+              <div class="section-title">Registrar Portal</div>
+              <div class="section-badge badge-blue">Manual + Bulk</div>
+            </div>
 
-            <div class="mt-6 grid gap-6 lg:grid-cols-2">
-              <div class="rounded-2xl bg-slate-50 p-5">
-                <h4 class="text-lg font-semibold text-slate-900">Mark Attendance</h4>
-                <div class="mt-4 space-y-3">
-                  <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-200">
-                    <span class="text-sm font-medium text-slate-700">Abel Berhanu</span>
-                    <button class="mark-attendance rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Present</button>
+            <div class="two-col">
+              <div class="panel-box">
+                <h3>Manual Student Entry</h3>
+                <div class="form-grid">
+                  <div class="field full-span">
+                    <label>Student Name</label>
+                    <input type="text" id="manualStudentName" placeholder="Enter student name" />
                   </div>
-                  <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-200">
-                    <span class="text-sm font-medium text-slate-700">Selam Bekele</span>
-                    <button class="mark-attendance rounded-lg bg-emerald-600 px-3 py-2 text-xs font-semibold text-white hover:bg-emerald-500">Present</button>
+
+                  <div class="field">
+                    <label>Grade Level</label>
+                    <select id="manualGradeSelect">
+                      <option value="">Select grade</option>
+                      <option value="Grade 1">Grade 1</option>
+                      <option value="Grade 2">Grade 2</option>
+                      <option value="Grade 3">Grade 3</option>
+                      <option value="Grade 4">Grade 4</option>
+                      <option value="Grade 5">Grade 5</option>
+                      <option value="Grade 6">Grade 6</option>
+                      <option value="Grade 7">Grade 7</option>
+                      <option value="Grade 8">Grade 8</option>
+                      <option value="Grade 9">Grade 9</option>
+                      <option value="Grade 10">Grade 10</option>
+                      <option value="Grade 11">Grade 11</option>
+                      <option value="Grade 12">Grade 12</option>
+                    </select>
                   </div>
-                  <div class="flex items-center justify-between rounded-xl bg-white p-3 border border-slate-200">
-                    <span class="text-sm font-medium text-slate-700">Daniel Mamo</span>
-                    <button class="mark-attendance rounded-lg bg-amber-500 px-3 py-2 text-xs font-semibold text-white hover:bg-amber-400">Late</button>
+
+                  <div class="field">
+                    <label>Mandatory Fayda NID</label>
+                    <input type="text" id="manualNid" placeholder="Mandatory ID" />
+                  </div>
+
+                  <div class="field">
+                    <label>Guardian Phone</label>
+                    <input type="text" placeholder="+251 ..." />
+                  </div>
+
+                  <div class="field">
+                    <label>Email</label>
+                    <input type="email" placeholder="student@school.edu" />
+                  </div>
+
+                  <div class="field">
+                    <label>&nbsp;</label>
+                    <button type="button" class="primary-btn" id="manualRegisterBtn">Register Student</button>
                   </div>
                 </div>
               </div>
 
-              <div class="rounded-2xl bg-slate-50 p-5">
-                <h4 class="text-lg font-semibold text-slate-900">Online Exam Grades</h4>
-                <div class="mt-4 space-y-4">
-                  <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Student Name</label>
-                    <input type="text" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Student name" />
+              <div class="panel-box">
+                <h3>Bulk Excel/CSV Upload</h3>
+                <div class="form-grid">
+                  <div class="field full-span">
+                    <label>Import Student Records</label>
+                    <input id="bulkFileInput" type="file" accept=".xlsx,.xls,.csv" />
                   </div>
-                  <div>
-                    <label class="block text-sm font-medium text-slate-700 mb-1">Grade</label>
-                    <input type="text" class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="A, B+, 92" />
+                  <div class="field full-span">
+                    <button type="button" class="secondary-btn" id="bulkImportBtn">Import Bulk Records</button>
                   </div>
-                  <button id="save-exam-grade" class="rounded-xl bg-blue-600 px-5 py-3 text-sm font-semibold text-white hover:bg-blue-500">Save Grade</button>
+                  <div class="field full-span">
+                    <button type="button" class="ghost-btn" id="exportRegistrarBtn">Export Table to Excel/CSV</button>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </section>
 
-        <section id="ai" class="view-panel hidden">
-          <div class="rounded-3xl border border-blue-100 bg-gradient-to-r from-blue-50 via-white to-cyan-50 p-6 shadow-soft">
-            <div class="flex items-center justify-between gap-3 flex-wrap">
-              <div>
-                <p class="text-sm font-semibold uppercase tracking-[0.16em] text-blue-600">AI Insights Report</p>
-                <h3 class="mt-2 text-2xl font-bold text-slate-900">Automated Intelligence Summary</h3>
-              </div>
-              <button id="refresh-ai-report" class="rounded-xl bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800">
-                Refresh Analysis
-              </button>
+        <section id="Student" class="role-content">
+          <div class="frame panel-section">
+            <div class="section-head">
+              <div class="section-title">Student & Parent Portal</div>
+              <div class="section-badge badge-green">Academic Access</div>
             </div>
 
-            <div class="mt-5 rounded-2xl border border-blue-100 bg-white/80 p-5">
-              <p class="text-lg leading-8 text-slate-700">
-                AI Summary Report: Total enrollment has reached 1,250. Primary section female registration grew by 15% this week. 5 private applications are pending financial clearance.
-              </p>
+            <div class="two-col">
+              <div class="panel-box">
+                <h3>Student Registration Clearance</h3>
+                <div class="form-grid">
+                  <div class="field full-span">
+                    <label>Student Fayda NID</label>
+                    <input type="text" id="studentNidLookup" value="Shega, 1" placeholder="Enter NID" />
+                  </div>
+                  <div class="field full-span">
+                    <label>Attach Registration Receipt</label>
+                    <input id="receiptUploadInput" type="file" accept="image/*" />
+                  </div>
+                  <div class="field full-span">
+                    <div id="receiptPreviewWrap" class="receipt-empty">No receipt attached yet</div>
+                  </div>
+                  <div class="field full-span">
+                    <button type="button" class="primary-btn" id="studentLookupBtn">View Report Card</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-box">
+                <h3>LMS Exam Hub</h3>
+                <div class="form-grid">
+                  <div class="field">
+                    <label>Exam Credentials</label>
+                    <input type="text" placeholder="Student ID / Exam Code" />
+                  </div>
+                  <div class="field">
+                    <label>Download</label>
+                    <button type="button" class="secondary-btn" id="downloadExamBtn">Download Exam</button>
+                  </div>
+                  <div class="field full-span">
+                    <label>Questions</label>
+                    <textarea id="studentExamText">1. What is the capital of Ethiopia? A) Addis Ababa B) Nairobi C) Lagos D) Kampala
+2. Which organ pumps blood through the body? A) Brain B) Heart C) Lungs D) Kidney</textarea>
+                  </div>
+                  <div class="field full-span">
+                    <label>Answer Choices</label>
+                    <textarea placeholder="Type your answer choices here...">1) A
+2) B</textarea>
+                  </div>
+                  <div class="field full-span">
+                    <button type="button" class="primary-btn" id="submitExamBtn">Submit Answers</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-box" style="margin-top: 18px;">
+              <h3>Academic Report Card</h3>
+              <div id="reportMessage" style="margin-top: 14px; font-size: 0.9rem; color: #64748b; font-weight: 700;">Enter a valid student Fayda NID to view report data.</div>
+              <div style="overflow-x: auto; margin-top: 18px;">
+                <table id="reportTable">
+                  <thead>
+                    <tr>
+                      <th>Subject</th>
+                      <th>Exam Score</th>
+                      <th>Assignment</th>
+                      <th>Attendance</th>
+                      <th>Final Grade</th>
+                      <th>Pass/Fail</th>
+                    </tr>
+                  </thead>
+                  <tbody id="reportTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="FinanceHead" class="role-content">
+          <div class="frame panel-section">
+            <div class="section-head">
+              <div class="section-title">Finance Clearance System</div>
+              <div class="section-badge badge-amber">Verification Queue</div>
+            </div>
+
+            <div class="panel-box" style="margin-top: 18px;">
+              <div class="row-actions" style="justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                <h3 style="margin: 0;">Payment Verification Data Table</h3>
+                <button type="button" class="ghost-btn" id="exportFinanceBtn">Export Table to Excel/CSV</button>
+              </div>
+
+              <div style="overflow-x: auto;">
+                <table id="financeTable">
+                  <thead>
+                    <tr>
+                      <th>Student</th>
+                      <th>Grade</th>
+                      <th>Amount</th>
+                      <th>Channel</th>
+                      <th>Receipt</th>
+                      <th>Status</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td class="td-strong">Aster Bekele</td>
+                      <td>Grade 10</td>
+                      <td>ETB 8,500</td>
+                      <td>Telebirr</td>
+                      <td><img class="receipt-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180'%3E%3Crect width='300' height='180' fill='%23e2e8f0'/%3E%3Crect x='20' y='20' width='260' height='140' rx='12' fill='%23f8fafc' stroke='%2394a3b8' stroke-dasharray='6 6'/%3E%3Ctext x='150' y='90' font-size='20' text-anchor='middle' fill='%2364748b' font-family='Arial' font-weight='700'%3EReceipt%3C/text%3E%3C/svg%3E" alt="Receipt preview" /></td>
+                      <td><span class="chip chip-amber">Pending</span></td>
+                      <td><div class="row-actions"><button class="tiny-btn confirm" type="button">Confirm Payment</button><button class="tiny-btn reject" type="button">Reject</button></div></td>
+                    </tr>
+                    <tr>
+                      <td class="td-strong">Daniel Tesfaye</td>
+                      <td>Grade 8</td>
+                      <td>ETB 5,200</td>
+                      <td>Bank</td>
+                      <td><img class="receipt-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180'%3E%3Crect width='300' height='180' fill='%23dbeafe'/%3E%3Crect x='20' y='20' width='260' height='140' rx='12' fill='%23eff6ff' stroke='%235b9ad4' stroke-dasharray='7 7'/%3E%3Ctext x='150' y='90' font-size='20' text-anchor='middle' fill='%233b82f6' font-family='Arial' font-weight='700'%3EBank Slip%3C/text%3E%3C/svg%3E" alt="Receipt preview" /></td>
+                      <td><span class="chip chip-green">Confirmed</span></td>
+                      <td><div class="row-actions"><button class="tiny-btn confirm" type="button">Confirm Payment</button><button class="tiny-btn reject" type="button">Reject</button></div></td>
+                    </tr>
+                    <tr>
+                      <td class="td-strong">Selam Mengistu</td>
+                      <td>Grade 12</td>
+                      <td>ETB 12,750</td>
+                      <td>Telebirr</td>
+                      <td><img class="receipt-preview" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='180'%3E%3Crect width='300' height='180' fill='%23dcfce7'/%3E%3Crect x='20' y='20' width='260' height='140' rx='12' fill='%23f0fdf4' stroke='%2310b981' stroke-dasharray='7 7'/%3E%3Ctext x='150' y='90' font-size='20' text-anchor='middle' fill='%23047857' font-family='Arial' font-weight='700'%3ETelebirr%3C/text%3E%3C/svg%3E" alt="Receipt preview" /></td>
+                      <td><span class="chip chip-red">Rejected</span></td>
+                      <td><div class="row-actions"><button class="tiny-btn confirm" type="button">Confirm Payment</button><button class="tiny-btn reject" type="button">Reject</button></div></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="DepartmentHead" class="role-content">
+          <div class="frame panel-section">
+            <div class="section-head">
+              <div class="section-title">Department Head & Roster</div>
+              <div class="section-badge badge-green">Compliance + Leadership</div>
+            </div>
+
+            <div class="card-grid">
+              <div class="mini-card">
+                <div class="mini-card-label">Total Students</div>
+                <div class="mini-card-value">1,028</div>
+                <div class="mini-card-note">Across all sections</div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-card-label">Document Compliance</div>
+                <div class="mini-card-value">94%</div>
+                <div class="mini-card-note">Verified academic files</div>
+              </div>
+              <div class="mini-card">
+                <div class="mini-card-label">Gender Analysis</div>
+                <div class="mini-card-value">52%F</div>
+                <div class="mini-card-note">48%M distribution</div>
+              </div>
+            </div>
+
+            <div class="two-col">
+              <div class="panel-box">
+                <h3>Student Document Compliance</h3>
+                <div class="document-list">
+                  <div class="doc-item"><span>Academic Transcript</span><span class="chip chip-green">Verified</span></div>
+                  <div class="doc-item"><span>Birth Certificate</span><span class="chip chip-green">Verified</span></div>
+                  <div class="doc-item"><span>Fayda NID</span><span class="chip chip-amber">Pending review</span></div>
+                  <div class="doc-item"><span>Medical Report</span><span class="chip chip-green">Verified</span></div>
+                </div>
+              </div>
+
+              <div class="panel-box">
+                <h3>Grade Card Summary</h3>
+                <div class="document-list">
+                  <div class="doc-item"><span>Grade 10 Core</span><span class="chip chip-green">Average 84%</span></div>
+                  <div class="doc-item"><span>Grade 11 Science</span><span class="chip chip-green">Average 87%</span></div>
+                  <div class="doc-item"><span>Grade 12 Arts</span><span class="chip chip-amber">Average 79%</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="two-col">
+              <div class="panel-box">
+                <h3>Student Roster</h3>
+                <div class="roster-list">
+                  <div class="roster-item"><span>Aster Bekele</span><span class="chip chip-green">Grade 10</span></div>
+                  <div class="roster-item"><span>Daniel Tesfaye</span><span class="chip chip-green">Grade 8</span></div>
+                  <div class="roster-item"><span>Selam Mengistu</span><span class="chip chip-amber">Grade 12</span></div>
+                  <div class="roster-item"><span>Abel Tadesse</span><span class="chip chip-green">Grade 11</span></div>
+                </div>
+              </div>
+
+              <div class="panel-box">
+                <h3>Top 10 Academic Performers</h3>
+                <div class="top-performers">
+                  <div class="performer-item"><span>1. Hana Tsegaye</span><span>98%</span></div>
+                  <div class="performer-item"><span>2. Solomon Mulu</span><span>97%</span></div>
+                  <div class="performer-item"><span>3. Meron Tekle</span><span>96%</span></div>
+                  <div class="performer-item"><span>4. Yared Bekele</span><span>95%</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="Teacher" class="role-content">
+          <div class="frame panel-section">
+            <div class="section-head">
+              <div class="section-title">Teacher LMS Exam Hub</div>
+              <div class="section-badge badge-blue">Exam Upload</div>
+            </div>
+
+            <div class="two-col">
+              <div class="panel-box">
+                <h3>Upload Exam & Answers</h3>
+                <div class="form-grid">
+                  <div class="field">
+                    <label>Subject</label>
+                    <select id="teacherSubject">
+                      <option value="">Select subject</option>
+                      <option value="Mathematics">Mathematics</option>
+                      <option value="Amharic">Amharic</option>
+                      <option value="English">English</option>
+                      <option value="Afaan Oromoo">Afaan Oromoo</option>
+                      <option value="Biology">Biology</option>
+                      <option value="Chemistry">Chemistry</option>
+                      <option value="Physics">Physics</option>
+                      <option value="History">History</option>
+                      <option value="Geography">Geography</option>
+                      <option value="Civics">Civics</option>
+                      <option value="Information Technology (IT)">Information Technology (IT)</option>
+                      <option value="General Science">General Science</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label>Exam Title</label>
+                    <select id="teacherExamTitle">
+                      <option value="">Select exam</option>
+                      <option>Midterm Exam</option>
+                      <option>Final Exam</option>
+                      <option>Quiz 1</option>
+                      <option>Diagnostic Assessment</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label>Grade Level</label>
+                    <select id="teacherGradeLevel">
+                      <option value="">Select grade</option>
+                      <option value="Grade 1">Grade 1</option>
+                      <option value="Grade 2">Grade 2</option>
+                      <option value="Grade 3">Grade 3</option>
+                      <option value="Grade 4">Grade 4</option>
+                      <option value="Grade 5">Grade 5</option>
+                      <option value="Grade 6">Grade 6</option>
+                      <option value="Grade 7">Grade 7</option>
+                      <option value="Grade 8">Grade 8</option>
+                      <option value="Grade 9">Grade 9</option>
+                      <option value="Grade 10">Grade 10</option>
+                      <option value="Grade 11">Grade 11</option>
+                      <option value="Grade 12">Grade 12</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label>Exam File</label>
+                    <input id="teacherExamFileInput" type="file" accept=".pdf,.doc,.docx" />
+                  </div>
+
+                  <div class="field full-span">
+                    <label>Answer Keys</label>
+                    <textarea id="teacherAnswerKey" placeholder="Type answer keys or answer guidance here..."></textarea>
+                  </div>
+
+                  <div class="field full-span">
+                    <button type="button" class="primary-btn" id="publishExamBtn">Publish Exam & Answer Key</button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-box">
+                <h3>Student Download & Submission</h3>
+                <div class="form-grid">
+                  <div class="field full-span">
+                    <label>Live Exam Summary</label>
+                    <textarea readonly>Mathematics Midterm Exam is active. Students can download the exam PDF and submit answers below.</textarea>
+                  </div>
+                  <div class="field full-span">
+                    <button type="button" class="secondary-btn" id="downloadTeacherExamBtn">Download Exam</button>
+                  </div>
+                  <div class="field full-span">
+                    <label>Student Answer Sheet</label>
+                    <textarea placeholder="Collect responses from students here..."></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="Parent" class="role-content">
+          <div class="frame panel-section">
+            <div class="section-head">
+              <div class="section-title">Parent Portal</div>
+              <div class="section-badge badge-green">Child Progress</div>
+            </div>
+
+            <div class="two-col">
+              <div class="panel-box">
+                <h3>Student Snapshot</h3>
+                <div class="form-grid">
+                  <div class="field">
+                    <label>Child Name</label>
+                    <input type="text" value="Aster Bekele" readonly />
+                  </div>
+                  <div class="field">
+                    <label>Current Grade</label>
+                    <input type="text" value="Grade 10" readonly />
+                  </div>
+                  <div class="field">
+                    <label>Attendance</label>
+                    <input type="text" value="96%" readonly />
+                  </div>
+                  <div class="field">
+                    <label>Average Score</label>
+                    <input type="text" value="89.5%" readonly />
+                  </div>
+                </div>
+              </div>
+
+              <div class="panel-box">
+                <h3>Latest Parent Messages</h3>
+                <div class="document-list">
+                  <div class="doc-item"><span>Teacher meeting scheduled</span><span class="chip chip-green">Confirmed</span></div>
+                  <div class="doc-item"><span>Fee clearance update</span><span class="chip chip-blue">Clear</span></div>
+                  <div class="doc-item"><span>Attendance note</span><span class="chip chip-green">Excellent</span></div>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -456,133 +1541,314 @@
     </div>
 
     <script>
-      const sidebarLinks = document.querySelectorAll('.sidebar-link');
-      const views = {
-        dashboard: document.getElementById('dashboard'),
-        registrar: document.getElementById('registrar'),
-        student: document.getElementById('student'),
-        finance: document.getElementById('finance'),
-        department: document.getElementById('department'),
-        parent: document.getElementById('parent'),
-        teacher: document.getElementById('teacher'),
-        ai: document.getElementById('ai')
+      const ROLE_LABELS = {
+        SuperAdmin: 'SuperAdmin',
+        Registrar: 'Registrar',
+        Student: 'Student',
+        FinanceHead: 'FinanceHead',
+        DepartmentHead: 'DepartmentHead',
+        Teacher: 'Teacher',
+        Parent: 'Parent'
       };
 
-      function setActiveView(viewName) {
-        Object.entries(views).forEach(([key, panel]) => {
-          if (panel) {
-            panel.classList.toggle('hidden', key !== viewName);
-          }
+      const loginOverlay = document.getElementById('loginOverlay');
+      const appShell = document.getElementById('appShell');
+      const loginForm = document.getElementById('loginForm');
+      const roleLinks = document.querySelectorAll('.role-link');
+      const contentSections = document.querySelectorAll('.role-content');
+      const sidebarSchoolName = document.getElementById('sidebarSchoolName');
+
+      const reportData = {
+        'shega, 1': [
+          { subject: 'Mathematics', exam: 92, assignment: 88, attendance: 96, finalGrade: 90, status: 'Pass' },
+          { subject: 'Science', exam: 87, assignment: 90, attendance: 94, finalGrade: 88, status: 'Pass' },
+          { subject: 'English', exam: 80, assignment: 85, attendance: 92, finalGrade: 82, status: 'Pass' },
+          { subject: 'Social Studies', exam: 76, assignment: 79, attendance: 90, finalGrade: 78, status: 'Pass' }
+        ],
+        'shega, 2': [
+          { subject: 'Mathematics', exam: 70, assignment: 75, attendance: 88, finalGrade: 72, status: 'Pass' },
+          { subject: 'Science', exam: 64, assignment: 70, attendance: 86, finalGrade: 66, status: 'Pass' },
+          { subject: 'English', exam: 58, assignment: 72, attendance: 84, finalGrade: 62, status: 'Pass' },
+          { subject: 'ICT', exam: 78, assignment: 82, attendance: 92, finalGrade: 80, status: 'Pass' }
+        ],
+        'shega, 3': [
+          { subject: 'Mathematics', exam: 55, assignment: 68, attendance: 74, finalGrade: 60, status: 'Fail' },
+          { subject: 'Science', exam: 62, assignment: 70, attendance: 77, finalGrade: 65, status: 'Pass' },
+          { subject: 'English', exam: 51, assignment: 63, attendance: 79, finalGrade: 57, status: 'Fail' },
+          { subject: 'Arts', exam: 73, assignment: 77, attendance: 82, finalGrade: 75, status: 'Pass' }
+        ]
+      };
+
+      function updateInstitutionHeader() {
+        const customName = localStorage.getItem('klemesaasInstitutionName');
+        if (customName && customName.trim()) {
+          sidebarSchoolName.textContent = customName.trim();
+        }
+      }
+
+      updateInstitutionHeader();
+
+      function setActiveRole(role) {
+        roleLinks.forEach((link) => {
+          const isActive = link.dataset.role === role;
+          link.classList.toggle('active', isActive);
         });
 
-        sidebarLinks.forEach((link) => {
-          const active = link.dataset.view === viewName;
-          link.classList.toggle('active', active);
-          link.classList.toggle('text-slate-200', active);
-          link.classList.toggle('text-slate-300', !active);
+        contentSections.forEach((section) => {
+          section.classList.toggle('active', section.id === role);
         });
       }
 
-      sidebarLinks.forEach((link) => {
-        link.addEventListener('click', () => {
-          setActiveView(link.dataset.view);
-        });
-      });
+      function handleSuccessfulLogin(role) {
+        const normalizedRole = ROLE_LABELS[role] || role;
+        setActiveRole(normalizedRole);
+        appShell.classList.remove('hidden-screen');
+        loginOverlay.classList.add('hidden');
+        localStorage.setItem('klemesaasCurrentRole', normalizedRole);
+      }
 
-      document.getElementById('generate-report').addEventListener('click', () => {
-        alert('AI report generated successfully for the SuperAdmin overview.');
-        console.log('Generate Report clicked');
-      });
+      function logoutApp() {
+        localStorage.removeItem('klemesaasCurrentRole');
+        appShell.classList.add('hidden-screen');
+        loginOverlay.classList.remove('hidden');
+        loginForm.reset();
+      }
 
-      document.getElementById('register-student').addEventListener('click', () => {
-        const faydaValue = document.getElementById('fayda-input').value.trim();
-        if (!faydaValue) {
-          alert('Fayda ID is mandatory for all grades');
-          return;
-        }
-        alert('Student registration submitted successfully.');
-        console.log('Registrar: student registered');
-      });
-
-      document.getElementById('bulk-register').addEventListener('click', () => {
-        alert('Bulk registration process launched successfully.');
-        console.log('Bulk registration started');
-      });
-
-      document.getElementById('verify-fayda').addEventListener('click', () => {
-        const faydaValue = document.getElementById('fayda-input').value.trim();
-        if (!faydaValue) {
-          alert('Fayda ID is mandatory for all grades');
-          return;
-        }
-        alert('Fayda NID verified successfully.');
-        console.log('Fayda verification completed');
-      });
-
-      document.getElementById('submit-student-registration').addEventListener('click', (event) => {
+      loginForm.addEventListener('submit', function (event) {
         event.preventDefault();
-        alert('Student self-registration submitted successfully.');
-        console.log('Student self-registration saved');
-      });
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value.trim();
+        const role = document.getElementById('loginRole').value;
 
-      document.querySelectorAll('.approve-payment').forEach((button) => {
-        button.addEventListener('click', () => {
-          alert('Fee payment approved successfully.');
-          console.log('Payment approved');
-        });
-      });
-
-      document.querySelectorAll('.reject-payment').forEach((button) => {
-        button.addEventListener('click', () => {
-          alert('Payment rejected and notification sent to the student.');
-          console.log('Payment rejected');
-        });
-      });
-
-      document.querySelectorAll('.approve-doc').forEach((button) => {
-        button.addEventListener('click', () => {
-          alert('Academic document approved.');
-          console.log('Document approved');
-        });
-      });
-
-      document.querySelectorAll('.reject-doc').forEach((button) => {
-        button.addEventListener('click', () => {
-          alert('Academic document rejected.');
-          console.log('Document rejected');
-        });
-      });
-
-      document.getElementById('search-child').addEventListener('click', () => {
-        const childId = document.getElementById('child-fayda-id').value.trim();
-        if (!childId) {
-          alert('Please enter a valid Child Fayda ID to search.');
+        if (!email || !password || !role) {
+          window.alert('Please complete the login form with email, password, and role.');
           return;
         }
-        alert('Child record found for Fayda ID: ' + childId);
-        console.log('Parent search executed for child ID:', childId);
+
+        if (password.length < 6) {
+          window.alert('Password must be at least 6 characters long.');
+          return;
+        }
+
+        handleSuccessfulLogin(role);
       });
 
-      document.querySelectorAll('.mark-attendance').forEach((button) => {
-        button.addEventListener('click', () => {
-          const studentName = button.parentElement.querySelector('span').textContent.trim();
-          const status = button.textContent.trim();
-          alert(`${studentName} marked as ${status}.`);
-          console.log(`Attendance updated: ${studentName} -> ${status}`);
+      document.getElementById('logoutBtn').addEventListener('click', logoutApp);
+
+      roleLinks.forEach((link) => {
+        link.addEventListener('click', function () {
+          const selectedRole = link.dataset.role;
+          const currentRole = localStorage.getItem('klemesaasCurrentRole');
+          if (!currentRole) {
+            return;
+          }
+          if (selectedRole !== currentRole) {
+            window.alert('Access denied. You are only allowed to use the assigned role view.');
+            setActiveRole(currentRole);
+            return;
+          }
+          setActiveRole(selectedRole);
         });
       });
 
-      document.getElementById('save-exam-grade').addEventListener('click', () => {
-        alert('Online exam grade saved successfully.');
-        console.log('Exam grade saved');
+      document.getElementById('manualRegisterBtn').addEventListener('click', function () {
+        const name = document.getElementById('manualStudentName').value.trim();
+        const grade = document.getElementById('manualGradeSelect').value;
+        const nid = document.getElementById('manualNid').value.trim();
+
+        if (!name || !grade || !nid) {
+          window.alert('Student name, grade, and Fayda NID are required.');
+          return;
+        }
+
+        window.alert('Student registered successfully with mandatory Fayda NID validation.');
       });
 
-      document.getElementById('refresh-ai-report').addEventListener('click', () => {
-        alert('AI summary refreshed successfully.');
-        console.log('AI report refreshed');
+      document.getElementById('bulkImportBtn').addEventListener('click', function () {
+        const file = document.getElementById('bulkFileInput').files[0];
+        if (!file) {
+          window.alert('Please select an Excel or CSV file to import records.');
+          return;
+        }
+        window.alert('Bulk student records are being imported and queued for verification.');
       });
 
-      setActiveView('dashboard');
+      document.getElementById('exportRegistrarBtn').addEventListener('click', function () {
+        exportTableAsCsv('Registrar', ['Student Name', 'Grade', 'Fayda NID', 'Status'], [
+          ['Aster Bekele', 'Grade 10', 'Shega, 1', 'Active'],
+          ['Daniel Tesfaye', 'Grade 8', 'Shega, 2', 'Active'],
+          ['Selam Mengistu', 'Grade 12', 'Shega, 3', 'Pending']
+        ]);
+      });
+
+      document.getElementById('receiptUploadInput').addEventListener('change', function (event) {
+        const file = event.target.files && event.target.files[0];
+        const previewWrap = document.getElementById('receiptPreviewWrap');
+
+        if (!file) {
+          previewWrap.className = 'receipt-empty';
+          previewWrap.textContent = 'No receipt attached yet';
+          return;
+        }
+
+        const reader = new FileReader();
+        reader.onload = function (loadEvent) {
+          previewWrap.className = 'receipt-preview';
+          previewWrap.src = loadEvent.target.result;
+          previewWrap.style.objectFit = 'cover';
+          previewWrap.style.display = 'block';
+          previewWrap.style.border = '1px solid rgba(148, 163, 184, 0.2)';
+          previewWrap.style.borderRadius = '14px';
+        };
+
+        reader.readAsDataURL(file);
+      });
+
+      function normalizeNid(value) {
+        return (value || '').toString().trim().toLowerCase().replace(/[^a-z0-9]/g, '');
+      }
+
+      function renderReportTable(nidValue) {
+        const inputNid = normalizeNid(nidValue);
+        const reportTableBody = document.getElementById('reportTableBody');
+        const reportMessage = document.getElementById('reportMessage');
+        reportTableBody.innerHTML = '';
+
+        const selectedList = Object.keys(reportData).find((key) => normalizeNid(key) === inputNid);
+
+        if (!selectedList) {
+          reportMessage.textContent = 'No student report was found for that Fayda NID. Please check the ID and try again.';
+          reportMessage.style.color = '#b45309';
+          return;
+        }
+
+        reportData[selectedList].forEach((row) => {
+          const tr = document.createElement('tr');
+          const passStatus = row.status === 'Pass' ? 'status-pass' : 'status-fail';
+          tr.innerHTML = `
+            <td class="td-strong">${row.subject}</td>
+            <td>${row.exam}</td>
+            <td>${row.assignment}</td>
+            <td>${row.attendance}%</td>
+            <td>${row.finalGrade}</td>
+            <td class="${passStatus}">${row.status}</td>
+          `;
+          reportTableBody.appendChild(tr);
+        });
+
+        reportMessage.textContent = 'Academic report card successfully loaded for the selected student.';
+        reportMessage.style.color = '#047857';
+      }
+
+      document.getElementById('studentLookupBtn').addEventListener('click', function () {
+        const nid = document.getElementById('studentNidLookup').value.trim();
+        renderReportTable(nid);
+      });
+
+      document.getElementById('downloadExamBtn').addEventListener('click', function () {
+        const examText = document.getElementById('studentExamText').value || 'KlemeSaaS Exam';
+        const blob = new Blob([examText], { type: 'application/octet-stream' });
+        const downloadUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = downloadUrl;
+        anchor.download = 'exam-download.txt';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(downloadUrl);
+      });
+
+      document.getElementById('submitExamBtn').addEventListener('click', function () {
+        window.alert('Exam submitted successfully. Your response has been recorded in the LMS.');
+      });
+
+      document.getElementById('publishExamBtn').addEventListener('click', function () {
+        const subject = document.getElementById('teacherSubject').value;
+        const title = document.getElementById('teacherExamTitle').value;
+        const grade = document.getElementById('teacherGradeLevel').value;
+        const file = document.getElementById('teacherExamFileInput').files[0];
+        const answerKey = document.getElementById('teacherAnswerKey').value.trim();
+
+        if (!subject || !title || !grade || !file || !answerKey) {
+          window.alert('Please complete the subject, exam title, grade level, file upload, and answer key before publishing.');
+          return;
+        }
+
+        window.alert('Exam and answer key published successfully in the LMS.');
+      });
+
+      document.getElementById('downloadTeacherExamBtn').addEventListener('click', function () {
+        const text = 'KlemeSaaS - Teacher Demo Exam\n\nSubject: Mathematics\nGrade: Grade 10\nExam Title: Midterm Exam';
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = 'teacher-exam.txt';
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(url);
+      });
+
+      document.querySelectorAll('.tiny-btn.confirm').forEach((button) => {
+        button.addEventListener('click', function () {
+          const row = button.closest('tr');
+          if (row) {
+            const statusCell = row.children[5];
+            statusCell.innerHTML = '<span class="chip chip-green">Confirmed</span>';
+          }
+        });
+      });
+
+      document.querySelectorAll('.tiny-btn.reject').forEach((button) => {
+        button.addEventListener('click', function () {
+          const row = button.closest('tr');
+          if (row) {
+            const statusCell = row.children[5];
+            statusCell.innerHTML = '<span class="chip chip-red">Rejected</span>';
+          }
+        });
+      });
+
+      function exportTableAsCsv(filename, headers, rows) {
+        const csvRows = [];
+        csvRows.push(headers.join(','));
+        rows.forEach((row) => {
+          csvRows.push(row.map((value) => `"${String(value).replace(/"/g, '""')}"`).join(','));
+        });
+
+        const csvContent = csvRows.join('\n');
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = `${filename}.csv`;
+        document.body.appendChild(anchor);
+        anchor.click();
+        document.body.removeChild(anchor);
+        URL.revokeObjectURL(url);
+      }
+
+      document.getElementById('exportFinanceBtn').addEventListener('click', function () {
+        const rows = [
+          ['Aster Bekele', 'Grade 10', 'ETB 8,500', 'Telebirr', 'Pending', 'Waiting'],
+          ['Daniel Tesfaye', 'Grade 8', 'ETB 5,200', 'Bank', 'Confirmed', 'Approved'],
+          ['Selam Mengistu', 'Grade 12', 'ETB 12,750', 'Telebirr', 'Rejected', 'Blocked']
+        ];
+        exportTableAsCsv('finance-clearance', ['Student', 'Grade', 'Amount', 'Channel', 'Receipt Status', 'Action'], rows);
+      });
+
+      const schoolNameInput = document.createElement('input');
+      schoolNameInput.type = 'hidden';
+      schoolNameInput.id = 'schoolNameHidden';
+      document.body.appendChild(schoolNameInput);
+
+      const initialRole = localStorage.getItem('klemesaasCurrentRole');
+      if (initialRole && ROLE_LABELS[initialRole]) {
+        handleSuccessfulLogin(initialRole);
+      }
+
+      renderReportTable('Shega, 1');
     </script>
   </body>
 </html>
