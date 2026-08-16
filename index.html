@@ -6,11 +6,12 @@
     <title>KlemeSaaS | Unified School Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
    <style>
-        /* 1. ሌላውን ምስልና ሎጎ ሳይነካ በዋናው ፓነል ውስጥ ያለውን ትልቅ ምስል ብቻ መለየት */
-        .main-panel img[src*="unsplash"], main img[src*="unsplash"] {
+        /* 1. የግራውን ሎጎ በፍጹም ሳይነካ በዋናው ፓነል ውስጥ ያለውን የምረቃ ምስል ብቻ መለየት */
+        .main-panel img[src*="unsplash"], main img[src*="unsplash"], .content img[src*="unsplash"] {
             height: 180px !important;
             object-fit: cover !important;
             border-radius: 16px !important;
+            width: 100% !important;
         }
     </style>
     <script>
