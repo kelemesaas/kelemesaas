@@ -5,15 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KlemeSaaS | Unified School Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-   <style>
-        /* 1. የግራውን ሎጎ በፍጹም ሳይነካ በዋናው ፓነል ውስጥ ያለውን የምረቃ ምስል ብቻ መለየት */
-        .main-panel img[src*="unsplash"], main img[src*="unsplash"], .content img[src*="unsplash"] {
-            height: 180px !important;
-            object-fit: cover !important;
-            border-radius: 16px !important;
-            width: 100% !important;
-        }
-    </style>
     <script>
       tailwind.config = {
         theme: {
@@ -292,6 +283,7 @@
       .campus-hero {
         grid-column: 1 / -1;
         position: relative;
+        height: 250px;
         min-height: 250px;
         overflow: hidden;
         border-radius: 26px;
@@ -302,10 +294,229 @@
 
       .campus-hero img {
         width: 100%;
-        height: 100%;
+        height: 150px !important;
         display: block;
         object-fit: cover;
         filter: saturate(1.05) contrast(1.08);
+      }
+
+      .avatar-svg,
+      .avatar-card img {
+        width: 50px !important;
+        height: 50px !important;
+        object-fit: cover;
+        border-radius: 50% !important;
+      }
+
+      .teacher-upload-zone {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 118px;
+        border: 1.5px dashed rgba(59, 130, 246, 0.52);
+        border-radius: 18px;
+        background: linear-gradient(135deg, rgba(239, 246, 255, 0.9), rgba(255, 255, 255, 0.85));
+        overflow: hidden;
+        transition: all 0.2s ease;
+      }
+
+      .teacher-upload-zone.dragover {
+        border-color: #2563eb;
+        background: rgba(219, 234, 254, 0.92);
+        transform: translateY(-1px);
+      }
+
+      .teacher-upload-zone input[type="file"] {
+        position: absolute;
+        inset: 0;
+        opacity: 0;
+        cursor: pointer;
+      }
+
+      .upload-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 12px;
+        padding: 18px 16px;
+        text-align: center;
+        color: #0f172a;
+      }
+
+      .upload-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        background: rgba(37, 99, 235, 0.12);
+        color: #1d4ed8;
+        font-size: 1.4rem;
+        font-weight: 900;
+      }
+
+      .upload-copy strong {
+        display: block;
+        font-size: 0.93rem;
+        margin-bottom: 2px;
+      }
+
+      .upload-copy small {
+        color: #64748b;
+        font-size: 0.75rem;
+      }
+
+      .file-name-box {
+        margin-top: 8px;
+        font-size: 0.78rem;
+        color: #475569;
+        font-weight: 700;
+      }
+
+      .quiz-generator {
+        margin-top: 18px;
+        display: grid;
+        gap: 14px;
+      }
+
+      .quiz-question-row,
+      .quiz-option-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1.5fr) repeat(4, minmax(0, 1fr));
+        gap: 10px;
+        align-items: center;
+      }
+
+      .quiz-question-row input,
+      .quiz-option-row input {
+        width: 100%;
+      }
+
+      .option-mark {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        border: 1px solid rgba(148, 163, 184, 0.45);
+        border-radius: 12px;
+        background: white;
+        padding: 10px 8px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        color: #334155;
+      }
+
+      .option-mark input {
+        width: auto;
+        margin: 0;
+      }
+
+      .teacher-quiz-actions {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      .student-exam-shell {
+        margin-top: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        border-radius: 18px;
+        background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+        padding: 16px;
+      }
+
+      .student-exam-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .student-pill,
+      .score-pill {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        padding: 7px 10px;
+      }
+
+      .student-pill {
+        background: rgba(14, 165, 233, 0.12);
+        color: #0369a1;
+      }
+
+      .score-pill {
+        background: rgba(16, 185, 129, 0.1);
+        color: #047857;
+      }
+
+      .student-question {
+        padding: 12px 0;
+        border-top: 1px solid rgba(148, 163, 184, 0.12);
+      }
+
+      .student-question p {
+        margin: 0 0 10px;
+        font-size: 0.95rem;
+        font-weight: 800;
+        color: #0f172a;
+      }
+
+      .answer-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        border: 1px solid rgba(148, 163, 184, 0.22);
+        border-radius: 12px;
+        background: #f8fafc;
+        font-size: 0.86rem;
+        color: #334155;
+        margin-bottom: 8px;
+      }
+
+      .answer-option input {
+        accent-color: #2563eb;
+      }
+
+      .student-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 12px;
+      }
+
+      .result-panel {
+        margin-top: 18px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, rgba(239, 246, 255, 0.7), rgba(255, 255, 255, 0.85));
+        border: 1px solid rgba(37, 99, 235, 0.12);
+        padding: 14px 16px;
+      }
+
+      .result-score {
+        font-size: 1.5rem;
+        font-weight: 900;
+        color: #0f172a;
+      }
+
+      .result-status {
+        margin-top: 4px;
+        font-size: 0.8rem;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #1d4ed8;
+      }
+
+      .result-message {
+        margin-top: 8px;
+        color: #475569;
+        font-size: 0.82rem;
       }
 
       .campus-hero::after {
@@ -373,7 +584,7 @@
 
       .avatar-svg {
         width: 100%;
-        height: 150px;
+        height: 110px;
         display: block;
         object-fit: cover;
         border-radius: 16px;
@@ -382,9 +593,9 @@
       .avatar-label {
         text-align: center;
         font-weight: 800;
-        margin-top: 10px;
+        margin-top: 8px;
         color: #0f172a;
-        font-size: 0.9rem;
+        font-size: 0.8rem;
       }
 
       .role-content {
@@ -1471,7 +1682,17 @@
 
                   <div class="field">
                     <label>Exam File</label>
-                    <input id="teacherExamFileInput" type="file" accept=".pdf,.doc,.docx" />
+                    <div class="teacher-upload-zone" id="teacherUploadZone">
+                      <input id="teacherExamFileInput" type="file" accept=".pdf,.doc,.docx" />
+                      <div class="upload-inner">
+                        <div class="upload-icon">⇪</div>
+                        <div class="upload-copy">
+                          <strong>Drag & drop exam PDF</strong>
+                          <small>or click to choose file</small>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="file-name-box" id="teacherFileName">No file selected</div>
                   </div>
 
                   <div class="field full-span">
@@ -1483,21 +1704,75 @@
                     <button type="button" class="primary-btn" id="publishExamBtn">Publish Exam & Answer Key</button>
                   </div>
                 </div>
+
+                <div class="quiz-generator" style="margin-top: 22px;">
+                  <div class="section-head" style="padding-bottom: 0; border-bottom: 0;">
+                    <div class="section-title" style="font-size: 1.08rem;">Teacher Quiz Generator Form</div>
+                  </div>
+
+                  <div class="quiz-question-row">
+                    <input type="text" placeholder="Type the question here" />
+                  </div>
+
+                  <div class="quiz-option-row">
+                    <input type="text" placeholder="Option A" />
+                    <label class="option-mark"><input type="radio" name="quizCorrectA" /> A</label>
+                    <input type="text" placeholder="Option B" />
+                    <label class="option-mark"><input type="radio" name="quizCorrectB" /> B</label>
+                    <input type="text" placeholder="Option C" />
+                    <label class="option-mark"><input type="radio" name="quizCorrectC" /> C</label>
+                    <input type="text" placeholder="Option D" />
+                    <label class="option-mark"><input type="radio" name="quizCorrectD" /> D</label>
+                  </div>
+
+                  <div class="teacher-quiz-actions">
+                    <button type="button" class="primary-btn">Add Question</button>
+                  </div>
+                </div>
               </div>
 
               <div class="panel-box">
                 <h3>Student Download & Submission</h3>
-                <div class="form-grid">
-                  <div class="field full-span">
-                    <label>Live Exam Summary</label>
-                    <textarea readonly>Mathematics Midterm Exam is active. Students can download the exam PDF and submit answers below.</textarea>
+                <div class="student-exam-shell">
+                  <div class="student-exam-top">
+                    <div class="student-pill">Student View</div>
+                    <div class="score-pill" id="studentScorePill">Score: 0%</div>
                   </div>
-                  <div class="field full-span">
+
+                  <div class="student-question">
+                    <p>1. What is the capital city of Ethiopia?</p>
+                    <label class="answer-option"><input type="radio" name="studentQuestion1" value="A" /> A. Addis Ababa</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion1" value="B" /> B. Nairobi</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion1" value="C" /> C. Dar es Salaam</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion1" value="D" /> D. Kampala</label>
+                  </div>
+
+                  <div class="student-question">
+                    <p>2. Which organ pumps blood through the body?</p>
+                    <label class="answer-option"><input type="radio" name="studentQuestion2" value="A" /> A. Brain</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion2" value="B" /> B. Heart</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion2" value="C" /> C. Lung</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion2" value="D" /> D. Kidney</label>
+                  </div>
+
+                  <div class="student-question">
+                    <p>3. Which planet is known as the Red Planet?</p>
+                    <label class="answer-option"><input type="radio" name="studentQuestion3" value="A" /> A. Venus</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion3" value="B" /> B. Mars</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion3" value="C" /> C. Saturn</label>
+                    <label class="answer-option"><input type="radio" name="studentQuestion3" value="D" /> D. Jupiter</label>
+                  </div>
+
+                  <div class="student-actions">
                     <button type="button" class="secondary-btn" id="downloadTeacherExamBtn">Download Exam</button>
+                    <button type="button" class="primary-btn" id="studentSubmitExamBtn">Submit Exam</button>
+                    <button type="button" class="ghost-btn" id="studentResetExamBtn">Reset</button>
                   </div>
-                  <div class="field full-span">
-                    <label>Student Answer Sheet</label>
-                    <textarea placeholder="Collect responses from students here..."></textarea>
+
+                  <div class="result-panel" id="studentResultPanel">
+                    <div class="result-score" id="studentResultScore">0 / 3</div>
+                    <div class="result-status" id="studentResultStatus">Pending</div>
+                    <div class="result-message" id="studentResultMessage">Select your answers and click submit to see your score.</div>
                   </div>
                 </div>
               </div>
@@ -1771,11 +2046,46 @@
         window.alert('Exam submitted successfully. Your response has been recorded in the LMS.');
       });
 
+      const teacherExamFileInput = document.getElementById('teacherExamFileInput');
+      const teacherUploadZone = document.getElementById('teacherUploadZone');
+      const teacherFileName = document.getElementById('teacherFileName');
+
+      if (teacherExamFileInput && teacherFileName) {
+        teacherExamFileInput.addEventListener('change', function () {
+          const file = teacherExamFileInput.files && teacherExamFileInput.files[0];
+          teacherFileName.textContent = file ? file.name : 'No file selected';
+        });
+      }
+
+      if (teacherUploadZone) {
+        ['dragenter', 'dragover'].forEach((eventName) => {
+          teacherUploadZone.addEventListener(eventName, function (event) {
+            event.preventDefault();
+            teacherUploadZone.classList.add('dragover');
+          });
+        });
+
+        ['dragleave', 'drop'].forEach((eventName) => {
+          teacherUploadZone.addEventListener(eventName, function (event) {
+            event.preventDefault();
+            teacherUploadZone.classList.remove('dragover');
+          });
+        });
+
+        teacherUploadZone.addEventListener('drop', function (event) {
+          const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+          if (file) {
+            teacherExamFileInput.files = event.dataTransfer.files;
+            teacherFileName.textContent = file.name;
+          }
+        });
+      }
+
       document.getElementById('publishExamBtn').addEventListener('click', function () {
         const subject = document.getElementById('teacherSubject').value;
         const title = document.getElementById('teacherExamTitle').value;
         const grade = document.getElementById('teacherGradeLevel').value;
-        const file = document.getElementById('teacherExamFileInput').files[0];
+        const file = teacherExamFileInput.files && teacherExamFileInput.files[0];
         const answerKey = document.getElementById('teacherAnswerKey').value.trim();
 
         if (!subject || !title || !grade || !file || !answerKey) {
@@ -1784,6 +2094,54 @@
         }
 
         window.alert('Exam and answer key published successfully in the LMS.');
+      });
+
+      document.getElementById('studentSubmitExamBtn').addEventListener('click', function () {
+        const correctAnswers = {
+          studentQuestion1: 'A',
+          studentQuestion2: 'B',
+          studentQuestion3: 'B'
+        };
+
+        let score = 0;
+        const total = Object.keys(correctAnswers).length;
+
+        Object.entries(correctAnswers).forEach(([name, answer]) => {
+          const selected = document.querySelector(`input[name="${name}"]:checked`);
+          if (selected && selected.value === answer) {
+            score += 1;
+          }
+        });
+
+        const percentage = Math.round((score / total) * 100);
+        const status = percentage >= 70 ? 'Excellent' : percentage >= 50 ? 'Good' : percentage >= 30 ? 'Needs Improvement' : 'Below Standard';
+        const resultScore = document.getElementById('studentResultScore');
+        const resultStatus = document.getElementById('studentResultStatus');
+        const resultMessage = document.getElementById('studentResultMessage');
+        const scorePill = document.getElementById('studentScorePill');
+
+        resultScore.textContent = `${score} / ${total}`;
+        resultStatus.textContent = status;
+        resultStatus.style.color = percentage >= 70 ? '#047857' : percentage >= 50 ? '#1d4ed8' : '#b45309';
+        resultMessage.textContent = `You scored ${percentage}% on this exam with ${status.toLowerCase()} performance.`;
+        scorePill.textContent = `Score: ${percentage}%`;
+      });
+
+      document.getElementById('studentResetExamBtn').addEventListener('click', function () {
+        document.querySelectorAll('input[type="radio"]').forEach((input) => {
+          input.checked = false;
+        });
+
+        const resultScore = document.getElementById('studentResultScore');
+        const resultStatus = document.getElementById('studentResultStatus');
+        const resultMessage = document.getElementById('studentResultMessage');
+        const scorePill = document.getElementById('studentScorePill');
+
+        resultScore.textContent = '0 / 3';
+        resultStatus.textContent = 'Pending';
+        resultStatus.style.color = '#1d4ed8';
+        resultMessage.textContent = 'Select your answers and click submit to see your score.';
+        scorePill.textContent = 'Score: 0%';
       });
 
       document.getElementById('downloadTeacherExamBtn').addEventListener('click', function () {
