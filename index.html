@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>KlemeSaaS | Unified School Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <style>
-        /* ሌላውን ዲዛይን ሳይነካ የጀርባውን ትልቅ የምረቃ ምስል ብቻ ለይቶ ለማጥበብ */
-        main img, .flex-1 img {
-            max-height: 280px !important;
+   <style>
+        /* 1. ሌላውን ምስልና ሎጎ ሳይነካ በዋናው ፓነል ውስጥ ያለውን ትልቅ ምስል ብቻ መለየት */
+        .main-panel img[src*="unsplash"], main img[src*="unsplash"] {
+            height: 180px !important;
             object-fit: cover !important;
-            width: 100% !important;
+            border-radius: 16px !important;
         }
     </style>
     <script>
