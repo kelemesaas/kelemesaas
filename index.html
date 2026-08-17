@@ -1,151 +1,766 @@
 <!DOCTYPE html>
-<html lang="am">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KlemeSaaS - Unified University Exam Suite</title>
-    <link rel="stylesheet" href="https://cloudflare.com">
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KlemeSaaS - Unified School Suite</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwUEQ1H5Y1D0c4vQ="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <style>
-        :root {
-            --sidebar-bg: #0f172a;
-            --sidebar-hover: #1e293b;
-            --main-bg: #f8fafc;
-            --primary-blue: #2563eb;
-            --accent-red: #ef4444;
-            --text-dark: #0f172a;
-            --text-gray: #64748b;
-            --card-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05);
+      :root {
+        --sidebar-bg: #0f172a;
+        --sidebar-hover: #1e293b;
+        --sidebar-inactive: #94a3b8;
+        --main-bg: #f8fafc;
+        --panel-bg: #ffffff;
+        --primary-blue: #2563eb;
+        --accent-red: #ef4444;
+        --text-dark: #0f172a;
+        --text-gray: #64748b;
+        --border: #e2e8f0;
+        --success: #15803d;
+        --shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html, body {
+        height: 100%;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: var(--main-bg);
+        color: var(--text-dark);
+        display: flex;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      .sidebar {
+        width: 260px;
+        background: var(--sidebar-bg);
+        color: #fff;
+        display: flex;
+        flex-direction: column;
+        padding: 24px 0 18px;
+        flex-shrink: 0;
+      }
+
+      .brand-section {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 0 24px 22px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+        margin-bottom: 18px;
+      }
+
+      .brand-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        background: linear-gradient(135deg, #3b82f6, #06b6d4);
+        color: #fff;
+        font-size: 20px;
+      }
+
+      .brand-name h2 {
+        font-size: 1.1rem;
+        font-weight: 800;
+        letter-spacing: 0.02em;
+      }
+
+      .brand-name p {
+        font-size: 10px;
+        letter-spacing: 1.4px;
+        text-transform: uppercase;
+        color: #38bdf8;
+        margin-top: 4px;
+      }
+
+      .role-access-title {
+        padding: 0 24px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: #94a3b8;
+        text-transform: uppercase;
+      }
+
+      .nav-list {
+        list-style: none;
+        padding: 0 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+
+      .nav-item {
+        width: 100%;
+        appearance: none;
+        border: none;
+        background: transparent;
+        color: var(--sidebar-inactive);
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: left;
+      }
+
+      .nav-item:hover,
+      .nav-item.active {
+        background: var(--sidebar-hover);
+        color: #fff;
+      }
+
+      .nav-item i {
+        font-size: 14px;
+      }
+
+      .main-content {
+        flex: 1;
+        padding: 26px 30px 20px;
+        overflow-y: auto;
+      }
+
+      .top-system-bar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        width: 100%;
+        background: var(--panel-bg);
+        border-radius: 12px;
+        box-shadow: var(--shadow);
+        padding: 12px 18px;
+        margin-bottom: 18px;
+      }
+
+      .marquee-wrap {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+      }
+
+      marquee {
+        width: 100%;
+        color: var(--primary-blue);
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      .logout-action-btn {
+        margin-left: auto;
+        border: none;
+        background: var(--accent-red);
+        color: #fff;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 8px 16px rgba(239, 68, 68, 0.25);
+      }
+
+      .workspace {
+        display: none;
+        background: var(--panel-bg);
+        border-radius: 14px;
+        box-shadow: var(--shadow);
+        padding: 28px 26px;
+      }
+
+      .workspace.active {
+        display: block;
+      }
+
+      h2 {
+        font-size: 1.7rem;
+        letter-spacing: -0.03em;
+        color: var(--text-dark);
+        margin-bottom: 14px;
+      }
+
+      .subtitle {
+        color: var(--text-gray);
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--text-dark);
+      }
+
+      .form-control {
+        width: 100%;
+        padding: 11px 12px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .form-control:focus {
+        outline: none;
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
+      }
+
+      .option-block {
+        margin-bottom: 10px;
+      }
+
+      .btn-primary {
+        border: none;
+        background: var(--primary-blue);
+        color: #fff;
+        padding: 11px 18px;
+        border-radius: 8px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .warning-note {
+        color: var(--accent-red);
+        background: rgba(239, 68, 68, 0.08);
+        border: 1px solid rgba(239, 68, 68, 0.18);
+        border-radius: 8px;
+        padding: 10px 12px;
+        margin: 0 0 18px;
+        font-size: 12px;
+        font-weight: 600;
+      }
+
+      .question-list {
+        list-style: none;
+        margin-top: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .question-list li {
+        background: #f8fafc;
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        padding: 12px 14px;
+        font-size: 14px;
+      }
+
+      .student-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+
+      .exam-box {
+        margin-top: 16px;
+        padding: 18px;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        background: #f8fafc;
+      }
+
+      .exam-question {
+        margin-bottom: 18px;
+      }
+
+      .exam-question h4 {
+        font-size: 16px;
+        margin-bottom: 12px;
+      }
+
+      .option-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        font-size: 14px;
+      }
+
+      .result-box {
+        margin-top: 18px;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--success);
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 18px;
+      }
+
+      th, td {
+        border-bottom: 1px solid var(--border);
+        text-align: left;
+        padding: 12px 10px;
+        font-size: 14px;
+      }
+
+      th {
+        background: #f8fafc;
+        color: var(--text-gray);
+        font-weight: 700;
+      }
+
+      .empty-state {
+        text-align: center;
+        color: var(--text-gray);
+        padding: 18px;
+      }
+
+      @media (max-width: 768px) {
+        body {
+          flex-direction: column;
+          overflow: auto;
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', sans-serif; background-color: var(--main-bg); display: flex; height: 100vh; overflow: hidden; }
-        
-        /* Sidebar */
-        .sidebar { width: 260px; background-color: var(--sidebar-bg); color: #ffffff; display: flex; flex-direction: column; padding: 24px 0; flex-shrink: 0; }
-        .brand-section { padding: 0 24px 32px 24px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #1e293b; margin-bottom: 20px; }
-        .brand-logo { background: linear-gradient(135deg, #3b82f6, #06b6d4); color: white; font-weight: 800; font-size: 20px; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 10px; }
-        .role-access-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #475569; padding: 10px 24px; font-weight: 700; }
-        .nav-links { list-style: none; display: flex; flex-direction: column; gap: 4px; padding: 0 12px; }
-        .nav-item a { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; color: #94a3b8; text-decoration: none; font-size: 14px; font-weight: 500; border-radius: 8px; cursor: pointer; }
-        .nav-item.active a, .nav-item a:hover { background-color: var(--sidebar-hover); color: #ffffff; }
 
-        /* Main Content */
-        .main-content { flex-grow: 1; padding: 30px 40px; overflow-y: auto; }
-        .top-system-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; background: #ffffff; padding: 12px 20px; border-radius: 12px; box-shadow: var(--card-shadow); }
-        .marquee-container { flex-grow: 1; overflow: hidden; }
-        marquee { display: block !important; font-size: 14px; font-weight: 600; color: var(--primary-blue); }
-        .logout-action-btn { background-color: var(--accent-red); color: white; border: none; padding: 10px 18px; font-size: 13px; font-weight: 700; border-radius: 8px; cursor: pointer; }
-        
-        /* Functional Workspaces */
-        .workspace { display: none; background: white; padding: 30px; border-radius: 12px; box-shadow: var(--card-shadow); margin-top: 20px; }
-        .workspace.active { display: block; }
-        h2 { color: var(--text-dark); margin-bottom: 20px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px; }
-        
-        /* Forms & Interactive elements */
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; }
-        .form-control { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; }
-        .btn-prime { background-color: var(--primary-blue); color: white; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 600; }
-        .option-block { display: flex; gap: 10px; margin-bottom: 8px; }
-        
-        /* Table / Roster Styling */
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 14px; }
-        th { background-color: #f8fafc; color: var(--text-gray); font-weight: 700; }
+        .sidebar {
+          width: 100%;
+        }
+
+        .main-content {
+          padding: 18px 18px 26px;
+        }
+
+        .top-system-bar {
+          padding: 10px 12px;
+          flex-wrap: wrap;
+        }
+      }
     </style>
-</head>
-<body>
-
-    <!-- 1. የግራ በኩል የ 7ቱ ሚናዎች መግቢያ (Role Access) -->
-    <div class="sidebar">
-        <div class="brand-section">
-            <div class="brand-logo">K</div>
-            <div class="brand-name"><h2>KlemeSaaS</h2><p style="font-size:10px; color:#38bdf8;">UNIVERSITY SUITE</p></div>
+  </head>
+  <body>
+    <aside class="sidebar" aria-label="Role navigation sidebar">
+      <div class="brand-section">
+        <div class="brand-logo">K</div>
+        <div class="brand-name">
+          <h2>KlemeSaaS</h2>
+          <p>School Suite</p>
         </div>
-        <div class="role-access-title">ROLE ACCESS</div>
-        <ul class="nav-links">
-            <li class="nav-item active" onclick="switchRole('SuperAdmin')"><a href="#">SuperAdmin <i class="fas fa-shield-alt"></i></a></li>
-            <li class="nav-item" onclick="switchRole('Teacher')"><a href="#">Teacher (ፈተና ማዘጋጃ) <i class="fas fa-chalkboard-teacher"></i></a></li>
-            <li class="nav-item" onclick="switchRole('Student')"><a href="#">Student (መፈተኛ ማዕከል) <i class="fas fa-user-graduate"></i></a></li>
-            <li class="nav-item" onclick="switchRole('Registrar')"><a href="#">Registrar (ሮስተር ምልከታ) <i class="fas fa-save"></i></a></li>
-            <li class="nav-item" onclick="switchRole('FinanceHead')"><a href="#">FinanceHead <i class="fas fa-wallet"></i></a></li>
-            <li class="nav-item" onclick="switchRole('DepartmentHead')"><a href="#">DepartmentHead <i class="fas fa-building"></i></a></li>
-            <li class="nav-item" onclick="switchRole('Parent')"><a href="#">Parent <i class="fas fa-users"></i></a></li>
-        </ul>
-    </div>
+      </div>
 
-    <!-- 2. ዋናው የሲስተም አሰራር ክፍል -->
-    <div class="main-content">
-        <div class="top-system-bar">
-            <div class="marquee-container">
-                <marquee behavior="scroll" direction="left" scrollamount="5">🔥 እንኳን ወደ KlemeSaaS የፈተና ማስተዳደሪያ ማዕከል በደህና መጡ! ባለቤትነት፡ አማኑኤል መኮንን (Amanuel Mekonen21)</marquee>
+      <div class="role-access-title">Role Access</div>
+
+      <ul class="nav-list" aria-label="Role access items">
+        <li>
+          <button type="button" class="nav-item active" data-role="SuperAdmin">
+            <span>SuperAdmin</span>
+            <i class="fa-solid fa-shield-halved"></i>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-role="Teacher">
+            <span>Teacher</span>
+            <i class="fa-solid fa-chalkboard-user"></i>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-role="Student">
+            <span>Student</span>
+            <i class="fa-solid fa-user-graduate"></i>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-role="Registrar">
+            <span>Registrar</span>
+            <i class="fa-solid fa-clipboard-list"></i>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-role="FinanceHead">
+            <span>FinanceHead</span>
+            <i class="fa-solid fa-wallet"></i>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-role="DepartmentHead">
+            <span>DepartmentHead</span>
+            <i class="fa-solid fa-building-columns"></i>
+          </button>
+        </li>
+        <li>
+          <button type="button" class="nav-item" data-role="Parent">
+            <span>Parent</span>
+            <i class="fa-solid fa-people-group"></i>
+          </button>
+        </li>
+      </ul>
+    </aside>
+
+    <main class="main-content">
+      <div class="top-system-bar">
+        <div class="marquee-wrap">
+          <marquee behavior="scroll" direction="left" scrollamount="6">
+            🔥 እንኳን ወደ KlemeSaaS የፈተና ማስተዳደሪያ ማዕከል በደህና መጡ! ባለቤትነት፡ Amanuel Mekonen21
+          </marquee>
+        </div>
+        <button class="logout-action-btn" type="button" onclick="alert('You have logged out of the system.')">
+          <i class="fa-solid fa-right-from-bracket"></i> Logout
+        </button>
+      </div>
+
+      <section id="workspace-SuperAdmin" class="workspace active" aria-label="SuperAdmin workspace">
+        <h2>KlemeSaaS Administration Hub</h2>
+        <p class="subtitle">
+          Welcome to the university suite. Select a role from the left sidebar to access the relevant operations and controls.
+        </p>
+      </section>
+
+      <section id="workspace-Teacher" class="workspace" aria-label="Teacher workspace">
+        <h2>Teacher Workspace</h2>
+        <p class="subtitle">Create assessment questions and add them directly to the exam engine.</p>
+
+        <form id="teacherQuestionForm" onsubmit="addQuestion(event)">
+          <div class="form-group">
+            <label for="teacherQuestion">Question</label>
+            <input id="teacherQuestion" class="form-control" type="text" placeholder="Enter question here" required />
+          </div>
+
+          <div class="form-group">
+            <label>Answer Options</label>
+            <div class="option-block">
+              <input class="form-control teacher-opt" type="text" placeholder="Option A" required />
             </div>
-            <button class="logout-action-btn" onclick="alert('ከሲስተሙ እየወጡ ነው...')"><i class="fas fa-sign-out-alt"></i> Logout</button>
-        </div>
-
-        <!-- ሀ. SuperAdmin Dashboard -->
-        <div id="workspace-SuperAdmin" class="workspace active">
-            <h2>KlemeSaaS Administration Hub</h2>
-            <p style="color:var(--text-gray);">እንኳን በደህና መጡ! እባክዎ ከግራ በኩል የሚፈልጉትን የሥራ ሚና በመምረጥ ሥራዎን ያከናውኑ።</p>
-        </div>
-
-        <!-- ለ. Teacher Workspace (ፈተና ማዘጋጃ ሞጁል) -->
-        <div id="workspace-Teacher" class="workspace">
-            <h2>መምህር - የፈተና ማዘጋጃ እና ማስተላለፊያ ገጽ</h2>
-            <form id="add-question-form" onsubmit="addQuestion(event)">
-                <div class="form-group">
-                    <label>የፈተና ጥያቄ ጽሑፍ</label>
-                    <input type="text" id="teacher-question" class="form-control" placeholder="ለምሳሌ፡ የኮምፒውተር ዋና ክፍል የሆነው የቱ ነው?" required>
-                </div>
-                <div class="form-group">
-                    <label>የምርጫ አማራጮች</label>
-                    <div class="option-block"><input type="text" class="form-control teacher-opt" placeholder="አማራጭ ሀ" required></div>
-                    <div class="option-block"><input type="text" class="form-control teacher-opt" placeholder="አማራጭ ለ" required></div>
-                    <div class="option-block"><input type="text" class="form-control teacher-opt" placeholder="አማራጭ ሐ" required></div>
-                    <div class="option-block"><input type="text" class="form-control teacher-opt" placeholder="አማራጭ መ" required></div>
-                </div>
-                <div class="form-group">
-                    <label>ትክክለኛ መልስ</label>
-                    <input type="text" id="teacher-correct" class="form-control" placeholder="ለትክክለኛው መልስ የጻፉትን ጽሑፍ ልክ እንደወረደ እዚህ ይደግሙት" required>
-                </div>
-                <button type="submit" class="btn-prime">ጥያቄውን ወደ ሲስተሙ አዝምት</button>
-            </form>
-        </div>
-
-        <!-- ሐ. Student Workspace (የኦንላይን መፈተኛ ማዕከል) -->
-        <div id="workspace-Student" class="workspace">
-            <h2>ተማሪ - ደህንነቱ የተጠበቀ መፈተኛ መድረክ</h2>
-            <p style="color:var(--accent-red); font-size:12px; margin-bottom:15px;">⚠️ የቅጂ መብት ጥበቃ ሥርዓት (Copyright Protect) ገቢር ሆኗል፤ ኮፒ ማድረግ ወይም ቀኝ ክሊክ በጥብቅ የተከለከለ ነው!</p>
-            <div id="student-info-section">
-                <div class="form-group"><label>የተማሪ ስም</label><input type="text" id="stud-name" class="form-control" value="አማኑኤል መኮንን"></div>
-                <div class="form-group"><label>የተማሪ መታወቂያ (ID)</label><input type="text" id="stud-id" class="form-control" value="UM-21"></div>
-                <button class="btn-prime" onclick="startStudentExam()">ፈተናውን ጀምር</button>
+            <div class="option-block">
+              <input class="form-control teacher-opt" type="text" placeholder="Option B" required />
             </div>
-            <div id="active-exam-section" style="display:none;">
-                <div id="exam-questions-holder"></div>
-                <button class="btn-prime" onclick="submitStudentExam()">ፈተናውን አጠናቅቀህ አስረክብ</button>
+            <div class="option-block">
+              <input class="form-control teacher-opt" type="text" placeholder="Option C" required />
             </div>
-            <div id="student-result-holder" style="margin-top:20px; font-weight:700; color:#15803d;"></div>
+            <div class="option-block">
+              <input class="form-control teacher-opt" type="text" placeholder="Option D" required />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="teacherCorrect">Correct Answer</label>
+            <input id="teacherCorrect" class="form-control" type="text" placeholder="Correct option (e.g. A)" required />
+          </div>
+
+          <button type="submit" class="btn-primary">Add Question</button>
+        </form>
+
+        <ul id="questionList" class="question-list" aria-live="polite"></ul>
+      </section>
+
+      <section id="workspace-Student" class="workspace" aria-label="Student workspace">
+        <h2>Student Workspace</h2>
+        <p class="subtitle">Register your name and ID to begin the secure exam.</p>
+
+        <div class="warning-note">
+          ⚠️ Copy, paste, and right-click actions are blocked in the exam panel to protect the assessment.
         </div>
 
-        <!-- መ. Registrar Workspace (የሮስተር ምልከታ) -->
-        <div id="workspace-Registrar" class="workspace">
-            <h2>ሬጅስትራር - አውቶማቲክ የውጤት መዝገብ (Roster)</h2>
-            <button class="btn-prime" onclick="loadRosterData()">የቅርብ ጊዜውን ሮስተር አድስ</button>
-            <table>
-                <thead>
-                    <tr><th>የተማሪ ስም</th><th>መታወቂያ ID</th><th>ያገኘው ማርክ</th><th>የፐርሰንት ምጣኔ</th><th>ደረጃ (Grade)</th><th>ቀን</th></tr>
-                </thead>
-                <tbody id="roster-table-body">
-                    <tr><td colspan="6" style="text-align:center; color:var(--text-gray);">ምንም የተመዘገበ ውጤት የለም።</td></tr>
-                </tbody>
-            </table>
-        </div>
+        <div class="student-layout">
+          <div id="studentRegistrationPanel">
+            <div class="form-group">
+              <label for="studentName">Student Name</label>
+              <input id="studentName" class="form-control" type="text" value="Amanuel Mekonen21" />
+            </div>
+            <div class="form-group">
+              <label for="studentId">Student ID</label>
+              <input id="studentId" class="form-control" type="text" value="UM-21" />
+            </div>
+            <button type="button" class="btn-primary" onclick="startStudentExam()">Start Exam</button>
+          </div>
 
-        <!-- ሌሎቹ ሚናዎች ለጊዜው ማሳያ -->
-        <div id="workspace-FinanceHead" class="workspace"><h2>FinanceHead Workspace</h2><p>የበጀት እና የክፍያ ቁጥጥር ማዕከል</p></div>
-        <div id="workspace-DepartmentHead" class="workspace"><h2>DepartmentHead Workspace</h2><p>የአካዳሚክ ጥራት መከታተያ ማዕከል</p></div>
-        <div id="workspace-Parent" class="workspace"><h2>Parent Workspace</h2><p>የተማሪዎች ውጤት ለወላጅ ማሳያ ገጽ</p></div>
-    </div>
+          <div id="studentExamPanel" style="display: none;">
+            <div id="examQuestionsContainer" class="exam-box"></div>
+            <button type="button" class="btn-primary" style="margin-top: 12px;" onclick="submitStudentExam()">Submit Exam</button>
+          </div>
+
+          <div id="studentResult" class="result-box" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section id="workspace-Registrar" class="workspace" aria-label="Registrar workspace">
+        <h2>Registrar Workspace</h2>
+        <p class="subtitle">Automated roster summary for the latest student results.</p>
+        <button type="button" class="btn-primary" onclick="loadRosterData()" style="margin-top: 10px;">Refresh Roster</button>
+
+        <table>
+          <thead>
+            <tr>
+              <th>Student</th>
+              <th>ID</th>
+              <th>Mark</th>
+              <th>Percent</th>
+              <th>Grade</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="rosterTableBody"></tbody>
+        </table>
+      </section>
+    </main>
 
     <script>
-        // 🔒 የቅጂ መብት ጥበቃ ሥርዓት (Disable Copy, Paste & Right Click)
+      const examBank = [
+        {
+          question: 'Which of the following structures is used to store data in JavaScript?',
+          options: ['Array', 'Function', 'Loop', 'Condition'],
+          correct: 'A'
+        },
+        {
+          question: 'What does HTML stand for?',
+          options: ['Hyperlinks and Text Markup Language', 'Hyper Text Markup Language', 'High Transfer Mark Language', 'Home Tool Markup Language'],
+          correct: 'B'
+        },
+        {
+          question: 'Which CSS property changes the text color?',
+          options: ['font-size', 'background', 'color', 'margin'],
+          correct: 'C'
+        }
+      ];
+
+      const rosterData = [
+        { student: 'Amanuel Mekonen21', id: 'UM-21', mark: 18, percent: 90, grade: 'A', date: '2026-08-18' },
+        { student: 'Selam Bekele', id: 'UM-34', mark: 17, percent: 85, grade: 'B', date: '2026-08-18' },
+        { student: 'Daniel Tadesse', id: 'UM-42', mark: 16, percent: 80, grade: 'B', date: '2026-08-18' }
+      ];
+
+      function switchRole(role) {
+        const navItems = document.querySelectorAll('.nav-item');
+        navItems.forEach((item) => {
+          item.classList.toggle('active', item.dataset.role === role);
+        });
+
+        const workspaces = document.querySelectorAll('.workspace');
+        workspaces.forEach((workspace) => {
+          workspace.classList.toggle('active', workspace.id === `workspace-${role}`);
+        });
+      }
+
+      document.querySelectorAll('.nav-item').forEach((button) => {
+        button.addEventListener('click', function () {
+          switchRole(this.dataset.role);
+        });
+      });
+
+      function addQuestion(event) {
+        event.preventDefault();
+
+        const questionInput = document.getElementById('teacherQuestion');
+        const options = Array.from(document.querySelectorAll('.teacher-opt'));
+        const correctInput = document.getElementById('teacherCorrect');
+
+        const questionText = questionInput.value.trim();
+        const optionValues = options.map((input) => input.value.trim());
+        const correctAnswer = correctInput.value.trim().toUpperCase();
+
+        if (!questionText || optionValues.some((value) => !value) || !correctAnswer) {
+          alert('Please complete the question, all options, and the correct answer.');
+          return;
+        }
+
+        if (!['A', 'B', 'C', 'D'].includes(correctAnswer)) {
+          alert('Correct answer must be one of A, B, C, or D.');
+          return;
+        }
+
+        const mappedOptions = ['A', 'B', 'C', 'D'].map((letter, index) => ({
+          label: letter,
+          text: optionValues[index]
+        }));
+
+        examBank.push({
+          question: questionText,
+          options: mappedOptions.map((item) => item.text),
+          correct: correctAnswer
+        });
+
+        const list = document.getElementById('questionList');
+        const item = document.createElement('li');
+        item.textContent = `${questionText} | Correct: ${correctAnswer}`;
+        list.appendChild(item);
+
+        document.getElementById('teacherQuestionForm').reset();
+      }
+
+      function secureExamEvents() {
+        document.addEventListener('copy', function (event) {
+          event.preventDefault();
+          return false;
+        });
+
+        document.addEventListener('contextmenu', function (event) {
+          event.preventDefault();
+          return false;
+        });
+
+        document.addEventListener('keydown', function (event) {
+          const forbiddenKeys = ['c', 'v', 'x', 'a'];
+          if ((event.ctrlKey || event.metaKey) && forbiddenKeys.includes(event.key.toLowerCase())) {
+            event.preventDefault();
+            return false;
+          }
+        });
+      }
+
+      secureExamEvents();
+
+      function startStudentExam() {
+        const studentName = document.getElementById('studentName').value.trim();
+        const studentId = document.getElementById('studentId').value.trim();
+
+        if (!studentName || !studentId) {
+          alert('Please enter both student name and ID before starting the exam.');
+          return;
+        }
+
+        const examContainer = document.getElementById('examQuestionsContainer');
+        const studentExamPanel = document.getElementById('studentExamPanel');
+        const registrationPanel = document.getElementById('studentRegistrationPanel');
+        const resultBox = document.getElementById('studentResult');
+
+        resultBox.textContent = '';
+        examContainer.innerHTML = '';
+
+        const questionsToUse = examBank.length ? examBank : [
+          {
+            question: 'What is the primary purpose of CSS?',
+            options: ['To structure content', 'To style the page', 'To access database', 'To create animations'],
+            correct: 'B'
+          },
+          {
+            question: 'Which tag is used to create a heading in HTML?',
+            options: ['<div>', '<p>', '<h1>', '<span>'],
+            correct: 'C'
+          }
+        ];
+
+        questionsToUse.forEach((questionItem, questionIndex) => {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'exam-question';
+
+          const heading = document.createElement('h4');
+          heading.textContent = `${questionIndex + 1}. ${questionItem.question}`;
+          wrapper.appendChild(heading);
+
+          questionItem.options.forEach((optionText, optionIndex) => {
+            const label = document.createElement('label');
+            label.className = 'option-row';
+
+            const input = document.createElement('input');
+            input.type = 'radio';
+            input.name = `q-${questionIndex}`;
+            input.value = String.fromCharCode(65 + optionIndex);
+
+            const text = document.createElement('span');
+            text.textContent = `${String.fromCharCode(65 + optionIndex)}. ${optionText}`;
+
+            label.appendChild(input);
+            label.appendChild(text);
+            wrapper.appendChild(label);
+          });
+
+          examContainer.appendChild(wrapper);
+        });
+
+        registrationPanel.style.display = 'none';
+        studentExamPanel.style.display = 'block';
+      }
+
+      function submitStudentExam() {
+        const questionsToUse = examBank.length ? examBank : [
+          {
+            question: 'What is the primary purpose of CSS?',
+            options: ['To structure content', 'To style the page', 'To access database', 'To create animations'],
+            correct: 'B'
+          },
+          {
+            question: 'Which tag is used to create a heading in HTML?',
+            options: ['<div>', '<p>', '<h1>', '<span>'],
+            correct: 'C'
+          }
+        ];
+
+        let score = 0;
+
+        questionsToUse.forEach((questionItem, questionIndex) => {
+          const selected = document.querySelector(`input[name="q-${questionIndex}"]:checked`);
+          if (selected && selected.value === questionItem.correct) {
+            score += 1;
+          }
+        });
+
+        const total = questionsToUse.length;
+        const percent = Math.round((score / total) * 100);
+        const resultBox = document.getElementById('studentResult');
+
+        resultBox.textContent = `Exam submitted successfully. ${score}/${total} correct (${percent}%).`;
+
+        const studentName = document.getElementById('studentName').value.trim();
+        const studentId = document.getElementById('studentId').value.trim();
+
+        const row = {
+          student: studentName,
+          id: studentId,
+          mark: score,
+          percent: percent,
+          grade: percent >= 80 ? 'A' : percent >= 70 ? 'B' : percent >= 60 ? 'C' : 'F',
+          date: new Date().toISOString().slice(0, 10)
+        };
+
+        rosterData.unshift(row);
+      }
+
+      function loadRosterData() {
+        const tbody = document.getElementById('rosterTableBody');
+        tbody.innerHTML = '';
+
+        if (!rosterData.length) {
+          tbody.innerHTML = '<tr><td colspan="6" class="empty-state">No roster data available.</td></tr>';
+          return;
+        }
+
+        rosterData.forEach((row) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.student}</td>
+            <td>${row.id}</td>
+            <td>${row.mark}</td>
+            <td>${row.percent}%</td>
+            <td>${row.grade}</td>
+            <td>${row.date}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      }
+
+      loadRosterData();
+    </script>
+  </body>
+</html>
